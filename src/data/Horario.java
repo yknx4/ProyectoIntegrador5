@@ -6,6 +6,8 @@
 
 package data;
 
+import java.util.Date;
+
 /**
  *
  * @author 5j
@@ -13,4 +15,9 @@ package data;
 public class Horario {
     public long id;
     public Date inicio;
+    @Override
+    public String toString(){
+       String res = "";
+       return res;
+    }
 }

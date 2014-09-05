@@ -27,6 +27,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,13 +68,14 @@ public class horariosParser {
         
     }
     
-    private void processData() throws SQLException {
+    private void processData() throws SQLException, ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
         Horario nuevo;
         while(rawData.next()){
             nuevo = new Horario();
             nuevo.id = rawData.getLong(DataContract.HorarioEntry._ID);
-            
+            nuevo.inicio = formatter.parse(rawData.getString(HorarioEntry.COLUMN_INICIO));
+            System.out.println(nuevo);
             horarios.add(nuevo);
         }
     }
