@@ -11,6 +11,40 @@ package data;
  * @author 5j
  */
 public class DataContract {
+    
+    public static class ListaClaseEntry implements BaseColumns{
+
+        public static final String TABLE_NAME = "listaclases";
+        public static final String COLUMN_MATERIA = "ma_nombre";
+        public static final String COLUMN_MAESTRO = "nombre";
+        public static final String COLUMN_DIA = "dia";
+        public static final String COLUMN_DIA_STRING = "dia_str";
+        public static final String COLUMN_SALON = "salon";
+        public static final String COLUMN_HORARIO = "inicio";
+        public static final String COLUMN_GRUPO = "grupo";
+        
+        @Override
+        public String getQuery() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getInsert() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getDelete() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getUpdate() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    
     public static class MaestroEntry implements BaseColumns
     {
         public static final String TABLE_NAME = "Maestros";

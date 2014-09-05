@@ -6,6 +6,7 @@
 
 package test;
 
+import app.Utility;
 import data.SQLData.Parser.clasesParser;
 import java.io.IOException;
 import java.sql.Connection;
@@ -29,8 +30,7 @@ public class TestParsers {
             Class.forName("com.mysql.jdbc.Driver");
             // setup the connection with the DB.
             connect = DriverManager
-                    .getConnection("jdbc:mysql://189.182.229.25:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
-                            + "user=root&password=konami1994");
+                    .getConnection(Utility.DB_STRING);
             
             
             // TODO code application logic here

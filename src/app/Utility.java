@@ -15,6 +15,8 @@ import data.SQLData.Join;
  * @author Yknx
  */
 public class Utility {
+    public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
+                            + "user=root&password=konami1994";
     public static String removeLast(final String input){
         return input.substring(0,input.length()-1);
     }
@@ -102,9 +104,10 @@ public class Utility {
             String query = "SELECT "; 
             if(columns==null || columns.length==0) query +="*";
             else{
-                query+="("+arrayToCSV(columns)+")";
+                //query+="("+arrayToCSV(columns)+")";
+                query+=""+arrayToCSV(columns)+"";
             }
-            query+=" FROM "+tableName;
+            query+=" FROM "+tableName+" ";
             return query;
         }
         

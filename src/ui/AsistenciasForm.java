@@ -6,9 +6,17 @@
 
 package ui;
 
+import app.Utility;
+import data.SQLData.ClasesTableModel;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
@@ -401,6 +409,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
                 ImageIcon icon = new ImageIcon(iconURL);
                 form.setIconImage(icon.getImage());
                 form.setProfesorImagen(icon);
+                form.prepareData();
                 
         
                 
@@ -446,4 +455,24 @@ public class AsistenciasForm extends javax.swing.JFrame {
     private javax.swing.JLabel salonNombreLabel;
     private javax.swing.JLabel usuarioLabel;
     // End of variables declaration//GEN-END:variables
+
+    
+    private ClasesTableModel modelEnCurso;
+    private ClasesTableModel modelFuturas;
+    
+    private void prepareData() {
+        
+            Calendar cal = Calendar.getInstance();
+            cal.setFirstDayOfWeek(Calendar.MONDAY);
+            int rec = cal.get(Calendar.DAY_OF_WEEK);
+            modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, 1,rec-1);
+            modelFuturas = ClasesTableModel.with(Utility.DB_STRING, 2,rec-1);
+            enCursoTable.setModel(modelEnCurso);
+            futurasTable.setModel(modelFuturas);
+            
+            
+            
+        
+            
+    }
 }
