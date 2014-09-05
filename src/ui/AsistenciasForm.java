@@ -8,12 +8,14 @@ package ui;
 
 import app.Utility;
 import data.SQLData.ClasesTableModel;
+import data.SQLData.Parser.horariosParser;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -291,6 +293,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        enCursoTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(enCursoTable);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -480,20 +483,28 @@ public class AsistenciasForm extends javax.swing.JFrame {
             
             return rec;
     }
-    
+    horariosParser horas;
+    int[] horarios;
     private void prepareData() {
         
             int rec = getDate();
-            modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, 1,rec);
-            modelFuturas = ClasesTableModel.with(Utility.DB_STRING, 2,rec);
-            enCursoTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-            enCursoTable.setModel(modelEnCurso);
-            futurasTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-            futurasTable.setModel(modelFuturas);
-            
-            
-            
+        try {
+            horas = horariosParser.with(Utility.DB_STRING);
+        } catch (ClassNotFoundException | SQLException | ParseException ex) {
+            Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            horarios = horas.getClosest();
+            modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, horarios[0],rec);
+            modelFuturas = ClasesTableModel.with(Utility.DB_STRING, horarios[1],rec);
+            updateTables();
+    }
+    private void updateTables(){
         
-            
+        enCursoTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        enCursoTable.setModel(modelEnCurso);
+        ecHoraLabel.setText(horas.getHora(horarios[0]));
+        futurasTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        futurasTable.setModel(modelFuturas);       
+        ecHoraLabel1.setText(horas.getHora(horarios[1]));
     }
 }

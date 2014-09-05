@@ -18,6 +18,8 @@ public class Horario {
     @Override
     public String toString(){
        String res = "";
+       res+= "Id: "+id;
+       res+= " Hora: "+inicio;
        return res;
     }
 }
