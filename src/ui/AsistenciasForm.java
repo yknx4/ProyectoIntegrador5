@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 
 /**
@@ -26,7 +27,7 @@ import javax.swing.UIManager;
  * @author Yknx
  */
 public class AsistenciasForm extends javax.swing.JFrame {
-
+    public static boolean isDebug=false;
     /**
      * Creates new form AsistenciasForm
      */
@@ -382,6 +383,8 @@ public class AsistenciasForm extends javax.swing.JFrame {
      */
     static AsistenciasForm form;
     public static void main(String args[]) {
+        if(args.length>1) isDebug = true;
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -467,7 +470,9 @@ public class AsistenciasForm extends javax.swing.JFrame {
             int rec = cal.get(Calendar.DAY_OF_WEEK);
             modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, 1,rec-1);
             modelFuturas = ClasesTableModel.with(Utility.DB_STRING, 2,rec-1);
+            enCursoTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
             enCursoTable.setModel(modelEnCurso);
+            futurasTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
             futurasTable.setModel(modelFuturas);
             
             
