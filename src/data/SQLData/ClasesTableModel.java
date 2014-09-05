@@ -10,6 +10,7 @@ import app.Utility.SQLHelper;
 import data.BaseColumns;
 import data.DataContract;
 import data.DataContract.HorarioEntry;
+import data.DataContract.ListaClaseCursoEntry;
 import data.DataContract.ListaClaseEntry;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -39,23 +40,14 @@ public class ClasesTableModel extends AbstractTableModel {
 
         private String getQuery() {
             String query = "";
-            final String[] columns = {ListaClaseEntry.COLUMN_GRUPO, ListaClaseEntry.COLUMN_MAESTRO, ListaClaseEntry.COLUMN_MATERIA, ListaClaseEntry.COLUMN_SALON};
-            final String[] where = {ListaClaseEntry.COLUMN_HORARIO};
-            final int[] type = {SQLHelper.WHERE_TYPE_EQUAL};
-            query += Utility.SQLHelper.generateSelect(ListaClaseEntry.TABLE_NAME, columns);
+            final String[] columns = {ListaClaseCursoEntry.COLUMN_GRUPO, ListaClaseCursoEntry.COLUMN_MAESTRO, ListaClaseCursoEntry.COLUMN_MATERIA, ListaClaseCursoEntry.COLUMN_SALON};
+            final String[] where = {ListaClaseCursoEntry.COLUMN_ID_HORARIO,ListaClaseCursoEntry.COLUMN_DIA};
+            final int[] type = {SQLHelper.WHERE_TYPE_EQUAL,SQLHelper.WHERE_TYPE_EQUAL};
+            query += Utility.SQLHelper.generateSelect(ListaClaseCursoEntry.TABLE_NAME, columns);
             query += " ";
             query += SQLHelper.generateWhere(where, type);
+            System.out.println(query);
             
-            final String[] columns2 = {HorarioEntry.COLUMN_INICIO};
-            String str_horario = " (";
-            str_horario += SQLHelper.generateSelect(DataContract.HorarioEntry.TABLE_NAME, columns2);
-            str_horario += " ";
-            str_horario += SQLHelper.generateWhere(new String[]{BaseColumns._ID}, new int[]{SQLHelper.WHERE_TYPE_EQUAL});
-            str_horario += ") AND "+
-                    ListaClaseEntry.COLUMN_DIA+" = ? ";
-            
-            
-            query = query.replace("?", str_horario);
             
             return query;
 
@@ -175,13 +167,13 @@ public class ClasesTableModel extends AbstractTableModel {
     public String getColumnName(int i) {
         switch (headers[i]) {
 
-            case ListaClaseEntry.COLUMN_GRUPO:
+            case ListaClaseCursoEntry.COLUMN_GRUPO:
                 return "#";
-            case ListaClaseEntry.COLUMN_MAESTRO:
+            case ListaClaseCursoEntry.COLUMN_MAESTRO:
                 return "Profesor";
-            case ListaClaseEntry.COLUMN_MATERIA:
+            case ListaClaseCursoEntry.COLUMN_MATERIA:
                 return "Materia";
-            case ListaClaseEntry.COLUMN_SALON:
+            case ListaClaseCursoEntry.COLUMN_SALON:
                 return "Salón";
 
             default:

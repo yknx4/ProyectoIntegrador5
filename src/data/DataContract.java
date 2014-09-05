@@ -12,6 +12,48 @@ package data;
  */
 public class DataContract {
     
+    
+    public static class ListaClaseCursoEntry implements BaseColumns{
+
+        
+        /*SELECT  C.id,
+         C.dia,
+         C.id_Horarios,
+         Ma.nombre as ma_nombre,
+         M.nombre as maestro,
+         CONCAT(G.semestre,G.grupo) as grupo,
+         S.nombre as salon*/
+        public static final String TABLE_NAME = "listaclasescurso";
+        public static final String COLUMN_MATERIA = "ma_nombre";
+        public static final String COLUMN_MAESTRO = "maestro";
+        public static final String COLUMN_DIA = "dia";
+        public static final String COLUMN_SALON = "salon";
+        public static final String COLUMN_ID_HORARIO = "id_Horarios";
+        public static final String COLUMN_GRUPO = "grupo";
+        
+        @Override
+        public String getQuery() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getInsert() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getDelete() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getUpdate() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    
+    
     public static class ListaClaseEntry implements BaseColumns{
 
         public static final String TABLE_NAME = "listaclases";

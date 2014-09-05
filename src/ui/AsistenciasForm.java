@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -236,8 +237,8 @@ public class AsistenciasForm extends javax.swing.JFrame {
         ClasesPanel.setLayout(new java.awt.GridLayout(1, 2, 8, 8));
 
         java.awt.GridBagLayout EnCursoPanelLayout = new java.awt.GridBagLayout();
-        EnCursoPanelLayout.columnWidths = new int[] {0};
-        EnCursoPanelLayout.rowHeights = new int[] {0, 5, 0};
+        EnCursoPanelLayout.columnWidths = new int[] {0, 5, 0};
+        EnCursoPanelLayout.rowHeights = new int[] {0, 5, 0, 5, 0};
         EnCursoPanel.setLayout(EnCursoPanelLayout);
 
         java.awt.GridBagLayout ecInfoPanelLayout = new java.awt.GridBagLayout();
@@ -264,7 +265,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
         ecInfoPanel.add(ecHoraLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -293,7 +294,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(enCursoTable);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -302,7 +303,10 @@ public class AsistenciasForm extends javax.swing.JFrame {
 
         ClasesPanel.add(EnCursoPanel);
 
-        FuturasPanel.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagLayout FuturasPanelLayout = new java.awt.GridBagLayout();
+        FuturasPanelLayout.columnWidths = new int[] {0, 5, 0};
+        FuturasPanelLayout.rowHeights = new int[] {0, 5, 0, 5, 0};
+        FuturasPanel.setLayout(FuturasPanelLayout);
 
         fInfoPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -463,13 +467,25 @@ public class AsistenciasForm extends javax.swing.JFrame {
     private ClasesTableModel modelEnCurso;
     private ClasesTableModel modelFuturas;
     
+    private int getDate(){
+        Calendar cal = Calendar.getInstance();
+            cal.setFirstDayOfWeek(Calendar.MONDAY);
+            
+            cal.setTime(new Date());
+            int rec = cal.get(Calendar.DAY_OF_WEEK);
+            
+            if(rec<0) rec = 7-rec;
+            else rec -= 2;
+            
+            
+            return rec;
+    }
+    
     private void prepareData() {
         
-            Calendar cal = Calendar.getInstance();
-            cal.setFirstDayOfWeek(Calendar.MONDAY);
-            int rec = cal.get(Calendar.DAY_OF_WEEK);
-            modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, 1,rec-1);
-            modelFuturas = ClasesTableModel.with(Utility.DB_STRING, 2,rec-1);
+            int rec = getDate();
+            modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, 1,rec);
+            modelFuturas = ClasesTableModel.with(Utility.DB_STRING, 2,rec);
             enCursoTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
             enCursoTable.setModel(modelEnCurso);
             futurasTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
