@@ -2009,7 +2009,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="ecHoraLabel1">
+                <Component class="javax.swing.JLabel" name="futurasHoraLabel">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="07:50"/>
                   </Properties>

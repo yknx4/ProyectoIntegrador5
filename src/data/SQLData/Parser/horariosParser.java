@@ -31,6 +31,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,35 @@ public class horariosParser {
     ResultSet rawData;
     
     public String getHora(int t){
-        return formatter.format(horarios.get(t).inicio);
+        
+        return formatter.format(get(t).inicio);
+    }
+    
+    public Date getFullDate(int t){
+        return getFullDate(t,new Date());
+    }
+    public Date getFullDate(int t, Date dia){
+        Date horario = get(t).inicio;
+        Calendar cHorario = Calendar.getInstance();
+        cHorario.setTime(horario);
+        Calendar c = Calendar.getInstance();
+        c.setTime(dia);
+        c.set(Calendar.HOUR_OF_DAY, cHorario.get(Calendar.HOUR_OF_DAY));
+        c.set(Calendar.MINUTE, cHorario.get(Calendar.MINUTE));
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND,0);
+        
+        
+        return c.getTime();
+    }
+    
+    public Horario get(int t){
+        int n = t;
+        n--;
+        if (n<1){
+            n += (horarios.size()-1);
+        }
+        return horarios.get(n);
     }
     
     public static horariosParser with(Connection con) throws SQLException, ParseException{
@@ -112,15 +141,13 @@ public class horariosParser {
             tmp = Math.abs(today.getTime() - h.inicio.getTime());
             if(tmp<v){
                 v=tmp;
-                t=horarios.indexOf(h);
+                t=(int)h.id;
             }
         }
         res[0] = t;
         res[1] = (t+1)%horarios.size();
-        res[0]++;
-        res[1]++;
         System.out.println("Yolo "+t);
-        System.out.println("Yolo3 "+horarios.get(t));
+        System.out.println("Yolo3 "+get(t));
         System.out.println("Yolo2 "+tmp);
         return res;
     }

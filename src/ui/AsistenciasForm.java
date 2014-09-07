@@ -7,6 +7,7 @@
 package ui;
 
 import app.Utility;
+import data.SQLData.AsistenciasFiller;
 import data.SQLData.ClasesTableModel;
 import data.SQLData.Parser.horariosParser;
 import java.awt.Image;
@@ -24,13 +25,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author Yknx
  */
 public class AsistenciasForm extends javax.swing.JFrame {
-    public static boolean isDebug=false;
+    public static boolean isDebug=true;
+    public static int fixedDay = 3;
+    public static int [] fixedHorarios = new int[2];
     /**
      * Creates new form AsistenciasForm
      */
@@ -84,7 +88,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
         FuturasPanel = new javax.swing.JPanel();
         fInfoPanel = new javax.swing.JPanel();
         fTituloLabel = new javax.swing.JLabel();
-        ecHoraLabel1 = new javax.swing.JLabel();
+        futurasHoraLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         futurasTable = new javax.swing.JTable();
 
@@ -322,14 +326,14 @@ public class AsistenciasForm extends javax.swing.JFrame {
         gridBagConstraints.weightx = 0.2;
         fInfoPanel.add(fTituloLabel, gridBagConstraints);
 
-        ecHoraLabel1.setText("07:50");
+        futurasHoraLabel.setText("07:50");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
-        fInfoPanel.add(ecHoraLabel1, gridBagConstraints);
+        fInfoPanel.add(futurasHoraLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -389,9 +393,11 @@ public class AsistenciasForm extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     static AsistenciasForm form;
+    private AsistenciasFiller mAsistenciasFiller;
     public static void main(String args[]) {
-        if(args.length>1) isDebug = true;
         
+        
+                
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -445,12 +451,12 @@ public class AsistenciasForm extends javax.swing.JFrame {
     private javax.swing.JLabel contrasenaLabel;
     private javax.swing.JPanel datosUsuarioPanel;
     private javax.swing.JLabel ecHoraLabel;
-    private javax.swing.JLabel ecHoraLabel1;
     private javax.swing.JPanel ecInfoPanel;
     private javax.swing.JLabel ecTituloLabel;
     private javax.swing.JTable enCursoTable;
     private javax.swing.JPanel fInfoPanel;
     private javax.swing.JLabel fTituloLabel;
+    private javax.swing.JLabel futurasHoraLabel;
     private javax.swing.JTable futurasTable;
     private javax.swing.JLabel horaInicioLabel;
     private javax.swing.JLabel imageLabel;
@@ -487,24 +493,36 @@ public class AsistenciasForm extends javax.swing.JFrame {
     int[] horarios;
     private void prepareData() {
         
-            int rec = getDate();
+            int todayNumeric = getDate();
+            
         try {
             horas = horariosParser.with(Utility.DB_STRING);
+            
+            if(!isDebug) mAsistenciasFiller = new AsistenciasFiller(Utility.DB_STRING,todayNumeric);
+            else mAsistenciasFiller = new AsistenciasFiller(Utility.DB_STRING,fixedDay);
         } catch (ClassNotFoundException | SQLException | ParseException ex) {
             Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
         }
             horarios = horas.getClosest();
-            modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, horarios[0],rec);
-            modelFuturas = ClasesTableModel.with(Utility.DB_STRING, horarios[1],rec);
+            mAsistenciasFiller.fill();
+            if(!isDebug){
+                modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, horarios[0],todayNumeric);
+                modelFuturas = ClasesTableModel.with(Utility.DB_STRING, horarios[1],todayNumeric);
+            }else{
+                modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, horarios[0],fixedDay);
+                modelFuturas = ClasesTableModel.with(Utility.DB_STRING, horarios[1],fixedDay);
+            }
             updateTables();
     }
+    private void setTable(JTable table, TableModel model, JLabel indicator){
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setRowSelectionAllowed(false);
+        table.setModel(model);
+        table.setFocusable(false);
+        indicator.setText(horas.getHora(horarios[0]));
+    }
     private void updateTables(){
-        
-        enCursoTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        enCursoTable.setModel(modelEnCurso);
-        ecHoraLabel.setText(horas.getHora(horarios[0]));
-        futurasTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        futurasTable.setModel(modelFuturas);       
-        ecHoraLabel1.setText(horas.getHora(horarios[1]));
+        setTable(enCursoTable,modelEnCurso,ecHoraLabel);
+        setTable(futurasTable,modelFuturas,futurasHoraLabel);
     }
 }

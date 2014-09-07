@@ -26,6 +26,7 @@ public class DataContract {
         public static final String TABLE_NAME = "listaclasescurso";
         public static final String COLUMN_MATERIA = "ma_nombre";
         public static final String COLUMN_MAESTRO = "maestro";
+        public static final String COLUMN_ID_MAESTRO = "id_maestro";
         public static final String COLUMN_DIA = "dia";
         public static final String COLUMN_SALON = "salon";
         public static final String COLUMN_ID_HORARIO = "id_Horarios";

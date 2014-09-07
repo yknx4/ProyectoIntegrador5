@@ -110,7 +110,38 @@ public class Utility {
             query+=" FROM "+tableName+" ";
             return query;
         }
-        
+        //INSERT INTO person (first_name, last_name) VALUES ('John', 'Doe');
+        public static final int INSERT_MODE_DEFAULT = 0;
+        public static final int INSERT_MODE_IGNORE = 1;
+        public static final int INSERT_MODE_REPLACE = 2;
+        public static String generateInsert (String tableName, String[] columns){
+            return generateInsert (tableName, columns, INSERT_MODE_DEFAULT);
+        }
+        public static String generateInsert (String tableName, String[] columns, int duplicateMode){
+            String query;
+            switch (duplicateMode){
+                case INSERT_MODE_IGNORE:
+                    query = "INSERT IGNORE INTO "+tableName+" "; 
+                   break;
+                case INSERT_MODE_REPLACE:
+                    query = "REPLACE INTO "+tableName+" ";
+                    break;
+                default:
+                    query = "INSERT INTO "+tableName+" "; 
+                    break;
+            }
+            
+            if(columns==null || columns.length==0) return "ERROR";
+            else{               
+                query+="("+arrayToCSV(columns)+")";
+            }
+            query+=" VALUES ("+arrayToCSV(filler(columns.length))+")";
+  
+            return query;
+        }
+        public static String generateWhere(String column, int type) {
+            return generateWhere(new String[]{column},new int[]{type});
+        }
         public static String generateWhere(String[] columns, int[] type) {
             final int ssize = columns.length;
             if(type.length!=ssize){
@@ -145,6 +176,16 @@ public class Utility {
             
             return query;   
         }
+
+        private static String[] filler(int length) {
+            String[] res = new String[length];
+            for(int i = 0;i<res.length;i++){
+                res[i] = "?";
+            }
+            return res;
+        }
+
+        
     }
 
     //TODO: MOVE TO UTILITY
