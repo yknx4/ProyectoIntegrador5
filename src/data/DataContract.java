@@ -31,6 +31,7 @@ public class DataContract {
         public static final String COLUMN_SALON = "salon";
         public static final String COLUMN_ID_HORARIO = "id_Horarios";
         public static final String COLUMN_GRUPO = "grupo";
+        public static final String COLUMN_ASISTENCIA = "asistio";
         
         @Override
         public String getQuery() {
@@ -97,6 +98,8 @@ public class DataContract {
         public static final String COLUMN_TIMESTAMP_CREATED = "created";
         public static final String COLUMN_TIMESTAMP_MODIFIED = "modified";
         public static final String COLUMN_ACTIVO = "activo";
+        public static final String COLUMN_EMAIL = "email";
+        public static final String COLUMN_PICTURE_URI = "picture";
 
         @Override
         public String getQuery() {

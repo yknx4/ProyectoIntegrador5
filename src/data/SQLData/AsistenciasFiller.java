@@ -59,9 +59,9 @@ public class AsistenciasFiller {
             while(res.next()){
                 //CLASE,MAESTRO,FECHA
                 st = con.prepareStatement(finsert);
-                st.setLong(1, res.getLong(columnsAssist[0]));
-                st.setLong(2, res.getLong(columnsAssist[1]));
-                st.setDate(3, new java.sql.Date(horas.getFullDate(res.getInt(columnsAssist[2])).getTime()));
+                st.setLong(1, res.getLong(columnsClases[0]));
+                st.setLong(2, res.getLong(columnsClases[1]));
+                st.setString(3, horas.getFullDateString(res.getInt(columnsClases[2])));
                 System.out.println(st);
             }
          

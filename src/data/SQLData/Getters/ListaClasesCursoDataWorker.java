@@ -73,20 +73,18 @@ public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
                 connect      = con;
                 this.horario = horario;
                 this.dia     = dia;
-                statement    = getStatement(columns);
+                statement    = connect.prepareStatement(getQuery(columns));
         }
         public ListaClasesCursoDataWorker(int dia, Connection con, String[] columns) throws SQLException {
                 connect      = con;
                 this.dia     = dia;
-                statement    = getStatement(columns);
                 setAllHorarios(true);
+                statement    = connect.prepareStatement(getQuery(columns));
+                
         }
         
         
-        private PreparedStatement getStatement(String[] columns) throws SQLException{
-            if (columns==null || columns.length==0) return connect.prepareStatement(getQuery());
-            else return connect.prepareStatement(getQuery(columns));
-        }
+        
 
         /**
          * Method description
@@ -96,7 +94,8 @@ public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
          */
         private String getQuery() {
             final String[] columns = { DataContract.ListaClaseCursoEntry.COLUMN_GRUPO, DataContract.ListaClaseCursoEntry.COLUMN_MAESTRO,
-                                       DataContract.ListaClaseCursoEntry.COLUMN_MATERIA, DataContract.ListaClaseCursoEntry.COLUMN_SALON };
+                                       DataContract.ListaClaseCursoEntry.COLUMN_MATERIA, DataContract.ListaClaseCursoEntry.COLUMN_SALON, 
+                                        DataContract.ListaClaseCursoEntry.COLUMN_ASISTENCIA};
             return getQuery(columns);
         }
         private String getQuery(String[] columns) {

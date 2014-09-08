@@ -7,11 +7,15 @@
 package ui;
 
 import app.Utility;
+import data.Clase;
+import data.Maestro;
 import data.SQLData.AsistenciasFiller;
 import data.SQLData.ClasesTableModel;
 import data.SQLData.Parser.horariosParser;
+import data.SQLData.Parser.maestrosParser;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -121,8 +126,6 @@ public class AsistenciasForm extends javax.swing.JFrame {
 
         contrasenaLabel.setText("Contraseña:");
         datosUsuarioPanel.add(contrasenaLabel);
-
-        contrasenaField.setText("konami1994");
         datosUsuarioPanel.add(contrasenaField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -159,7 +162,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         infoPanel.add(maestroLabel, gridBagConstraints);
 
-        maestroNombreLabel.setText("Carlos Ulibarri Ireta");
+        maestroNombreLabel.setText("Placeholder Name");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
@@ -175,7 +178,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         infoPanel.add(claseLabel, gridBagConstraints);
 
-        claseNombreLabel.setText("Sistemas de Hipermedia");
+        claseNombreLabel.setText("PlaceHolder Lesson");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
@@ -191,7 +194,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         infoPanel.add(inicioLabel, gridBagConstraints);
 
-        horaInicioLabel.setText("07:00");
+        horaInicioLabel.setText("00:00");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -199,7 +202,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 16);
         infoPanel.add(horaInicioLabel, gridBagConstraints);
 
-        salonNombreLabel.setText("Labotarorio 4");
+        salonNombreLabel.setText("PlaceHolder Place");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 4;
@@ -394,6 +397,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
      */
     static AsistenciasForm form;
     private AsistenciasFiller mAsistenciasFiller;
+    private maestrosParser mMaestrosParser;
     public static void main(String args[]) {
         
         
@@ -424,7 +428,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
                 URL iconURL = getClass().getResource("/images/app_icon.png");
                 ImageIcon icon = new ImageIcon(iconURL);
                 form.setIconImage(icon.getImage());
-                form.setProfesorImagen(icon);
+                //form.setProfesorImagen(icon);
                 form.prepareData();
                 
         
@@ -491,12 +495,26 @@ public class AsistenciasForm extends javax.swing.JFrame {
     }
     horariosParser horas;
     int[] horarios;
+    
+    private void setProfessorData(Maestro t, Clase c){
+        maestroNombreLabel.setText(t.nombre);
+        //TODO: Handle everything else
+        
+        if(t.picture_uri!=null){
+            setProfesorImagen(t.picture_uri);
+        }
+    }
+    private void setProfessorData(int t){
+        setProfessorData(mMaestrosParser.get(t), new Clase());
+    }
+    
     private void prepareData() {
         
             int todayNumeric = getDate();
             
         try {
             horas = horariosParser.with(Utility.DB_STRING);
+            mMaestrosParser = maestrosParser.with(Utility.DB_STRING);
             
             if(!isDebug) mAsistenciasFiller = new AsistenciasFiller(Utility.DB_STRING,todayNumeric);
             else mAsistenciasFiller = new AsistenciasFiller(Utility.DB_STRING,fixedDay);
@@ -514,15 +532,26 @@ public class AsistenciasForm extends javax.swing.JFrame {
             }
             updateTables();
     }
-    private void setTable(JTable table, TableModel model, JLabel indicator){
+    private void setTable(JTable table, TableModel model, JLabel indicator, int pos){
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setRowSelectionAllowed(false);
         table.setModel(model);
         table.setFocusable(false);
-        indicator.setText(horas.getHora(horarios[0]));
+        indicator.setText(horas.getHora(horarios[pos]));
     }
     private void updateTables(){
-        setTable(enCursoTable,modelEnCurso,ecHoraLabel);
-        setTable(futurasTable,modelFuturas,futurasHoraLabel);
+        setTable(enCursoTable,modelEnCurso,ecHoraLabel,0);
+        setTable(futurasTable,modelFuturas,futurasHoraLabel,1);
+    }
+
+    private void setProfesorImagen(String picture_uri) {
+        try {
+            URL url = new URL(picture_uri);
+            BufferedImage c = ImageIO.read(url);
+            ImageIcon image = new ImageIcon(c);
+            setProfesorImagen(image);
+        } catch (IOException ex) {
+            Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

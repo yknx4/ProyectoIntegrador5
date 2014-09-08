@@ -145,7 +145,7 @@ public class horariosParser {
             }
         }
         res[0] = t;
-        res[1] = (t+1)%horarios.size();
+        res[1] = (t+1)%(horarios.size()+1);
         System.out.println("Yolo "+t);
         System.out.println("Yolo3 "+get(t));
         System.out.println("Yolo2 "+tmp);
@@ -154,6 +154,12 @@ public class horariosParser {
     
     private Date today() throws ParseException{
         return formatter.parse(formatter.format(new Date()));
+    }
+
+    public String getFullDateString(int aInt) {
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(getFullDate(aInt));
     }
     
     

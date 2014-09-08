@@ -167,6 +167,8 @@ public class ClasesTableModel extends AbstractTableModel {
 
         case ListaClaseCursoEntry.COLUMN_SALON :
             return "Salón";
+        case ListaClaseCursoEntry.COLUMN_ASISTENCIA:
+            return "✔";
 
         default :
             return headers[i];
@@ -206,7 +208,28 @@ public class ClasesTableModel extends AbstractTableModel {
      */
     @Override
     public Object getValueAt(int row, int col) {
-        return ((String[]) cache.get(row))[col];
+        
+        String[] values = (String[]) cache.get(row);
+        switch(headers[col]){ 
+            case DataContract.ListaClaseCursoEntry.COLUMN_ASISTENCIA:
+                int v = Integer.parseInt(values[col]);
+                return v>0;
+            
+            default:
+                return values[col];
+        }
+        
+        
+    }
+    @Override
+    public Class<?> getColumnClass(int columnIndex){
+        switch(headers[columnIndex]){
+           case DataContract.ListaClaseCursoEntry.COLUMN_ASISTENCIA:
+               return Boolean.class;
+            
+            default:
+                return super.getColumnClass(columnIndex);
+        }
     }
 
     
