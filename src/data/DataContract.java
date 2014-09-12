@@ -89,9 +89,9 @@ public class DataContract {
         
     }
     
-    public static class MaestroEntry implements BaseColumns
+    public static class UsuarioEntry implements BaseColumns
     {
-        public static final String TABLE_NAME = "Maestros";
+        public static final String TABLE_NAME = "usuarios";
         public static final String COLUMN_NOMBRE = "nombre";
         public static final String COLUMN_PASSWORD_HASH = "passhash";
         public static final String COLUMN_PERMISSIONS = "permission";
@@ -228,7 +228,7 @@ public class DataContract {
     public static class AsistenciaEntry implements BaseColumns {
         public static final String TABLE_NAME = "Asistencias";
         public static final String COLUMN_ID_CLASE = "id_Clases";
-        public static final String COLUMN_ID_MAESTRO = "id_Maestros";
+        public static final String COLUMN_ID_USUARIO = "id_Maestros";
         public static final String COLUMN_FECHA = "fecha";
         public static final String COLUMN_TIMESTAMP_CREATED = "created";
         public static final String COLUMN_TIMESTAMP_MODIFIED = "modified";
@@ -258,18 +258,7 @@ public class DataContract {
     }
 
 
-/*
-inner join. For example: 
-SELECT * FROM t1 LEFT JOIN (t2, t3, t4)
-                 ON (t2.a=t1.a AND t3.b=t1.b AND t4.c=t1.c)
 
-
-is equivalent to: 
-SELECT * FROM t1 LEFT JOIN (t2 CROSS JOIN t3 CROSS JOIN t4)
-                 ON (t2.a=t1.a AND t3.b=t1.b AND t4.c=t1.c)
-
-
-*/
 
 
     

@@ -76,11 +76,10 @@ public class ClasesTableModel extends AbstractTableModel {
      *
      */
     public final void updateData() {
-        System.out.println(db);
         cache = new ArrayList();
 
         try {
-            getDataWorker = new ListaClasesCursoDataWorker(horario, dia, db) {
+            getDataWorker = new ListaClasesCursoDataWorker(horario, dia) {
                 @Override
                 public void done() {
                     try {

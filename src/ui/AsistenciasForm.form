@@ -71,6 +71,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JPasswordField" name="contrasenaField">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="contrasenaFieldActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

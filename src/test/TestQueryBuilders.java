@@ -48,7 +48,7 @@ public class TestQueryBuilders {
 
         String   fselect = Utility.SQLHelper.generateSelect("t1", null);
         String   fwhere  = Utility.SQLHelper.generateWhere(to, types);
-        String[] insCOl  = { AsistenciaEntry.COLUMN_ID_CLASE, AsistenciaEntry.COLUMN_ID_MAESTRO,
+        String[] insCOl  = { AsistenciaEntry.COLUMN_ID_CLASE, AsistenciaEntry.COLUMN_ID_USUARIO,
                              AsistenciaEntry.COLUMN_FECHA };
         String finsert = Utility.SQLHelper.generateInsert(AsistenciaEntry.TABLE_NAME, insCOl,
                              SQLHelper.INSERT_MODE_IGNORE);

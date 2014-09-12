@@ -1,6 +1,7 @@
 package app;
 
 import data.SQLData.Join;
+import java.text.SimpleDateFormat;
 
 
 
@@ -15,6 +16,7 @@ import data.SQLData.Join;
  * @author Yknx
  */
 public class Utility {
+    public static SimpleDateFormat SQLDateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
                             + "user=root&password=konami1994";
     public static String removeLast(final String input){
@@ -141,6 +143,13 @@ public class Utility {
         }
         public static String generateWhere(String column, int type) {
             return generateWhere(new String[]{column},new int[]{type});
+        }
+        public static String generateWhere(String[] columns, int type) {
+            int[] types = new int[columns.length];
+            for(int i=0;i<types.length;i++)
+                types[i] = type;
+            
+            return generateWhere(columns,types);
         }
         public static String generateWhere(String[] columns, int[] type) {
             final int ssize = columns.length;

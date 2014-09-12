@@ -11,6 +11,7 @@ import app.Utility.SQLHelper;
 import data.DataContract;
 import data.DataContract.ListaClaseCursoEntry;
 import data.SQLData.ClasesTableModel;
+import database.DatabaseInstance;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -44,16 +45,16 @@ public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
          *
          * @param horario
          * @param dia
-         * @param con
          *
          * @throws SQLException
          */
-        public ListaClasesCursoDataWorker(int horario, int dia, String con) throws SQLException {
+        public ListaClasesCursoDataWorker(int horario, int dia) throws SQLException {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
 
                 // setup the connection with the DB.
-                connect      = DriverManager.getConnection(con);
+                //connect      = DriverManager.getConnection(con);
+                connect = DatabaseInstance.getInstance();
                 this.horario = horario;
                 this.dia     = dia;
                 statement    = connect.prepareStatement(getQuery());
@@ -61,22 +62,18 @@ public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
                 Logger.getLogger(ClasesTableModel.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        public ListaClasesCursoDataWorker(int horario, int dia, Connection con) throws SQLException {
+        
+        public ListaClasesCursoDataWorker(int horario, int dia, String[] columns) throws SQLException {
                 // setup the connection with the DB.
-                connect      = con;
-                this.horario = horario;
-                this.dia     = dia;
-                statement    = connect.prepareStatement(getQuery());
-        }
-        public ListaClasesCursoDataWorker(int horario, int dia, Connection con, String[] columns) throws SQLException {
-                // setup the connection with the DB.
-                connect      = con;
+                //connect      = con;
+            connect = DatabaseInstance.getInstance();
                 this.horario = horario;
                 this.dia     = dia;
                 statement    = connect.prepareStatement(getQuery(columns));
         }
-        public ListaClasesCursoDataWorker(int dia, Connection con, String[] columns) throws SQLException {
-                connect      = con;
+        public ListaClasesCursoDataWorker(int dia, String[] columns) throws SQLException {
+                //connect      = con;
+            connect = DatabaseInstance.getInstance();
                 this.dia     = dia;
                 setAllHorarios(true);
                 statement    = connect.prepareStatement(getQuery(columns));

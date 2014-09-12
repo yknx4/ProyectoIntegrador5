@@ -8,11 +8,12 @@ package ui;
 
 import app.Utility;
 import data.Clase;
-import data.Maestro;
 import data.SQLData.AsistenciasFiller;
 import data.SQLData.ClasesTableModel;
-import data.SQLData.Parser.horariosParser;
-import data.SQLData.Parser.maestrosParser;
+import data.SQLData.Parser.HorariosParse;
+import data.SQLData.Parser.HorariosParse;
+import data.SQLData.Parser.UsuariosParser;
+import data.Usuario;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -37,7 +38,7 @@ import javax.swing.table.TableModel;
  * @author Yknx
  */
 public class AsistenciasForm extends javax.swing.JFrame {
-    public static boolean isDebug=true;
+    public static boolean isDebug=false;
     public static int fixedDay = 3;
     public static int [] fixedHorarios = new int[2];
     /**
@@ -126,6 +127,12 @@ public class AsistenciasForm extends javax.swing.JFrame {
 
         contrasenaLabel.setText("Contraseña:");
         datosUsuarioPanel.add(contrasenaLabel);
+
+        contrasenaField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contrasenaFieldActionPerformed(evt);
+            }
+        });
         datosUsuarioPanel.add(contrasenaField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -392,12 +399,16 @@ public class AsistenciasForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_UsuarioFieldActionPerformed
 
+    private void contrasenaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasenaFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contrasenaFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
     static AsistenciasForm form;
     private AsistenciasFiller mAsistenciasFiller;
-    private maestrosParser mMaestrosParser;
+    private UsuariosParser mMaestrosParser;
     public static void main(String args[]) {
         
         
@@ -493,10 +504,10 @@ public class AsistenciasForm extends javax.swing.JFrame {
             
             return rec;
     }
-    horariosParser horas;
+    HorariosParse horas;
     int[] horarios;
     
-    private void setProfessorData(Maestro t, Clase c){
+    private void setProfessorData(Usuario t, Clase c){
         maestroNombreLabel.setText(t.nombre);
         //TODO: Handle everything else
         
@@ -513,8 +524,8 @@ public class AsistenciasForm extends javax.swing.JFrame {
             int todayNumeric = getDate();
             
         try {
-            horas = horariosParser.with(Utility.DB_STRING);
-            mMaestrosParser = maestrosParser.with(Utility.DB_STRING);
+            horas = HorariosParse.with(Utility.DB_STRING);
+            mMaestrosParser = UsuariosParser.with(Utility.DB_STRING);
             
             if(!isDebug) mAsistenciasFiller = new AsistenciasFiller(Utility.DB_STRING,todayNumeric);
             else mAsistenciasFiller = new AsistenciasFiller(Utility.DB_STRING,fixedDay);
@@ -533,6 +544,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
             updateTables();
     }
     private void setTable(JTable table, TableModel model, JLabel indicator, int pos){
+        
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setRowSelectionAllowed(false);
         table.setModel(model);

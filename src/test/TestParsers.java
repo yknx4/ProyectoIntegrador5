@@ -7,7 +7,7 @@
 package test;
 
 import app.Utility;
-import data.SQLData.Parser.clasesParser;
+import data.SQLData.Parser.ClasesParser;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,9 +40,9 @@ public class TestParsers {
             int hora = 13;
             String salon = "Auditorio 1";
             //clasesParser.with(connect).getGrupoID(grupo);
-            clasesParser.with(connect).getMaestroID(maestro);
+            ClasesParser.with(connect).getMaestroID(maestro);
             //clasesParser.with(connect).getSalonID(salon);
-            if(args!=null && args[0] !=null)clasesParser.with(connect).readData(args[0]);
+            if(args!=null && args[0] !=null)ClasesParser.with(connect).readData(args[0]);
         } catch (ClassNotFoundException | SQLException | IOException ex) {
             Logger.getLogger(TestParsers.class.getName()).log(Level.SEVERE, null, ex);
         }

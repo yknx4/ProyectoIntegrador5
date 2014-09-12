@@ -32,12 +32,12 @@ import java.util.logging.Logger;
  *
  * @author Yknx
  */
-public class clasesParser {
-    private clasesParser(){}
+public class ClasesParser {
+    private ClasesParser(){}
     ArrayList<Clase> clases = new ArrayList<>();
     
-    public static clasesParser with(Connection con){
-        clasesParser n = new clasesParser();
+    public static ClasesParser with(Connection con){
+        ClasesParser n = new ClasesParser();
         n.mConnection = con;
         return n;
     }
@@ -61,7 +61,7 @@ public class clasesParser {
             res = mConnection.prepareStatement(query);
             res.setString(1, value);
         } catch (SQLException ex) {
-            //Logger.getLogger(clasesParser.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(ClasesParser.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error = "+ex.getMessage());
         }
         }
@@ -105,7 +105,7 @@ public class clasesParser {
             if(resset.first())
             res = resset.getLong(1);
         } catch (SQLException ex) {
-            Logger.getLogger(clasesParser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClasesParser.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(res==-1){
          System.out.println(   state.toString());
