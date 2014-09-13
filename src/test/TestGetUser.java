@@ -25,6 +25,8 @@ public class TestGetUser {
         String password = "1091750";
         System.out.println("Pass: "+password);
         System.out.println("ID de "+usuario+" :"+m.getUser(usuario, password));
+        //System.out.println("-> "+usuario+" :"+m.setAsistencia(usuario, password));
+        
         password = "invalid";
         System.out.println("Pass: "+password);
         System.out.println("ID de "+usuario+" :"+m.getUser(usuario, password));

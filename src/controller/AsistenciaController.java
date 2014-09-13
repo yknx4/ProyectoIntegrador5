@@ -41,7 +41,14 @@ public class AsistenciaController {
         query+=SQLHelper.generateWhere(whereColumns, SQLHelper.WHERE_TYPE_EQUAL);
         return query;
     }
-    
+    private static String asistenciaQuery(){
+        String query ="";
+        query += SQLHelper.generateSelect(DataContract.ListaClaseCursoEntry.TABLE_NAME, null);
+        final String[] whereColumns = {DataContract.ListaClaseCursoEntry.COLUMN_ID_MAESTRO, DataContract.ListaClaseCursoEntry.COLUMN_DIA, DataContract.ListaClaseCursoEntry.COLUMN_ID_HORARIO};
+        query+=SQLHelper.generateWhere(whereColumns, SQLHelper.WHERE_TYPE_EQUAL);
+        query = query.replaceFirst("\\?", userPassQuery());
+        return query;
+    }
     private byte[] getHash(String input){
         hasher.reset();
         try {
@@ -96,7 +103,23 @@ public class AsistenciaController {
         }
         return id;
     }
-    
+    public ResultSet setAsistencia(String email, String password, int dia, int horario){
+        ResultSet res =null;
+        try{
+            PreparedStatement query = db.prepareStatement(asistenciaQuery());
+            query.setString(1, email);
+            String hash = (new HexBinaryAdapter()).marshal(getHash(salt+password));
+            query.setString(2, hash.toLowerCase());
+            query.setInt(3, dia);
+            query.setLong(4, horario);
+            System.out.println(query);
+           // res = query.executeQuery();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AsistenciaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
     
     
     
