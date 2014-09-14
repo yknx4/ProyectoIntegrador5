@@ -21,11 +21,11 @@ public class TestGetUser {
      */
     public static void main(String[] args) throws SQLException {
         AsistenciaController m = AsistenciaController.getInstance();
-        String usuario = "cab.nia@telematica.mx";
-        String password = "1091750";
+        String usuario = "alc.ina@telematica.mx";
+        String password = "109514";
         System.out.println("Pass: "+password);
         System.out.println("ID de "+usuario+" :"+m.getUser(usuario, password));
-        //System.out.println("-> "+usuario+" :"+m.setAsistencia(usuario, password));
+        System.out.println("-> "+usuario+" :"+m.setAsistencia(usuario, password,1,13));
         
         password = "invalid";
         System.out.println("Pass: "+password);

@@ -36,6 +36,7 @@ public class AsistenciaController {
     private static String userPassQuery(){
         String query ="";
         final String[] selectColumns = {UsuarioEntry._ID,UsuarioEntry.COLUMN_PERMISSIONS};
+        //final String[] selectColumns = {UsuarioEntry._ID};
         query += SQLHelper.generateSelect(DataContract.UsuarioEntry.TABLE_NAME, selectColumns);
         final String[] whereColumns = {UsuarioEntry.COLUMN_EMAIL,UsuarioEntry.COLUMN_PASSWORD_HASH};
         query+=SQLHelper.generateWhere(whereColumns, SQLHelper.WHERE_TYPE_EQUAL);
@@ -43,10 +44,12 @@ public class AsistenciaController {
     }
     private static String asistenciaQuery(){
         String query ="";
-        query += SQLHelper.generateSelect(DataContract.ListaClaseCursoEntry.TABLE_NAME, null);
-        final String[] whereColumns = {DataContract.ListaClaseCursoEntry.COLUMN_ID_MAESTRO, DataContract.ListaClaseCursoEntry.COLUMN_DIA, DataContract.ListaClaseCursoEntry.COLUMN_ID_HORARIO};
+        query += SQLHelper.generateSelect(DataContract.AsistenciaDataViewEntry.TABLE_NAME, null);
+        final String[] whereColumns = {DataContract.AsistenciaDataViewEntry.COLUMN_MAESTRO_EMAIL, DataContract.AsistenciaDataViewEntry.COLUMN_MAESTRO_PASSWORD,DataContract.AsistenciaDataViewEntry.COLUMN_DIA, DataContract.AsistenciaDataViewEntry.COLUMN_ID_HORARIO};
         query+=SQLHelper.generateWhere(whereColumns, SQLHelper.WHERE_TYPE_EQUAL);
-        query = query.replaceFirst("\\?", userPassQuery());
+        
+        //query = query.replaceFirst("\\?", " ("+userPassQuery()+") ");
+        
         return query;
     }
     private byte[] getHash(String input){
@@ -113,7 +116,7 @@ public class AsistenciaController {
             query.setInt(3, dia);
             query.setLong(4, horario);
             System.out.println(query);
-           // res = query.executeQuery();
+            res = query.executeQuery();
             
         } catch (SQLException ex) {
             Logger.getLogger(AsistenciaController.class.getName()).log(Level.SEVERE, null, ex);

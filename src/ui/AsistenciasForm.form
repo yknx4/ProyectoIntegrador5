@@ -1681,32 +1681,7 @@
                 <Component class="javax.swing.JTable" name="enCursoTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="#" type="java.lang.String">
-                          <Data value="1A"/>
-                          <Data value="5J"/>
-                          <Data value="7G"/>
-                          <Data value="1H"/>
-                        </Column>
-                        <Column editable="true" title="Maestro" type="java.lang.String">
-                          <Data value="Rafael Pulido"/>
-                          <Data value="Carlos Ulibarri"/>
-                          <Data value="Luis Avalos"/>
-                          <Data value="Aaron Vazquez"/>
-                        </Column>
-                        <Column editable="true" title="Materia" type="java.lang.String">
-                          <Data value="Programacion Distribuida"/>
-                          <Data value="Sistemas de Hipermedia"/>
-                          <Data value="Bases de Datos"/>
-                          <Data value="Etica"/>
-                        </Column>
-                        <Column editable="true" title="Salon" type="java.lang.String">
-                          <Data value="DCOMP LAB"/>
-                          <Data value="Lab 2"/>
-                          <Data value="Lab 3"/>
-                          <Data value="Aula 1"/>
-                        </Column>
-                      </Table>
+                      <Table columnCount="0" rowCount="4"/>
                     </Property>
                     <Property name="autoResizeMode" type="int" value="4"/>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -2036,32 +2011,7 @@
                 <Component class="javax.swing.JTable" name="futurasTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="#" type="java.lang.String">
-                          <Data value="1A"/>
-                          <Data value="5J"/>
-                          <Data value="7G"/>
-                          <Data value="1H"/>
-                        </Column>
-                        <Column editable="true" title="Maestro" type="java.lang.String">
-                          <Data value="Rafael Pulido"/>
-                          <Data value="Carlos Ulibarri"/>
-                          <Data value="Luis Avalos"/>
-                          <Data value="Aaron Vazquez"/>
-                        </Column>
-                        <Column editable="true" title="Materia" type="java.lang.String">
-                          <Data value="Programacion Distribuida"/>
-                          <Data value="Sistemas de Hipermedia"/>
-                          <Data value="Bases de Datos"/>
-                          <Data value="Etica"/>
-                        </Column>
-                        <Column editable="true" title="Salon" type="java.lang.String">
-                          <Data value="DCOMP LAB"/>
-                          <Data value="Lab 2"/>
-                          <Data value="Lab 3"/>
-                          <Data value="Aula 1"/>
-                        </Column>
-                      </Table>
+                      <Table columnCount="0" rowCount="4"/>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">

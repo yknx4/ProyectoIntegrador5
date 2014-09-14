@@ -55,6 +55,63 @@ public class DataContract {
         
     }
     
+    public static class AsistenciaDataViewEntry implements BaseColumns{
+
+        
+        /*SELECT 
+	C.id,
+	C.dia,
+	U.id as id_maestro,
+	U.nombre as nombre_maestro,
+	U.passhash,
+	U.permission,
+	U.picture,
+	U.email,
+	C.id_Horarios,
+	H.inicio,
+	M.nombre as materia_nombre,
+	S.nombre as salon
+        FROM clases C
+        INNER JOIN usuarios U on C.id_maestro = U.id
+        INNER JOIN  horarios H on C.id_Horarios = H.id
+        INNER JOIN materias M on C.id_Materias = M.id
+        INNER JOIN salones S on C.id_Salones = S.id*/
+        public static final String TABLE_NAME = "asistenciadataview";
+        public static final String COLUMN_MATERIA = "materia_nombre";
+        public static final String COLUMN_MAESTRO = "nombre_maestro";
+        public static final String COLUMN_ID_MAESTRO = "id_maestro";
+        public static final String COLUMN_DIA = "dia";
+        public static final String COLUMN_SALON = "salon";
+        public static final String COLUMN_ID_HORARIO = "id_Horarios";
+        public static final String COLUMN_MAESTRO_PASSWORD = "passhash";
+        public static final String COLUMN_MAESTRO_PERMISSIONS = "permission";
+        public static final String COLUMN_MAESTRO_PICTURES = "picture";
+        public static final String COLUMN_MAESTRO_EMAIL = "email";
+        public static final String COLUMN_HORARIO_INICIO = "inicio";
+        
+        
+        
+        @Override
+        public String getQuery() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getInsert() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getDelete() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getUpdate() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
     
     public static class ListaClaseEntry implements BaseColumns{
 

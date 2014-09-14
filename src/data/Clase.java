@@ -6,6 +6,10 @@
 
 package data;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+
 /**
  *
  * @author Yknx
@@ -22,5 +26,12 @@ public class Clase {
         String base = "INSERT INTO `Clases` (`id_maestro`,`dia`,`id_Salones`,`id_Horarios`,`id_Grupos`,`id_Materias`) VALUES ("+maestro+","+dia+","+salon+","+horario+","+grupo+","+materia+");";
         System.out.println(base);
         return base;
+    }
+    public static Clase getClase(ResultSet rawData) throws SQLException, ParseException{
+        Clase res = new Clase();
+        
+        
+        
+        return res;
     }
 }

@@ -7,10 +7,11 @@
 package ui;
 
 import app.Utility;
+import controller.AsistenciaController;
 import data.Clase;
+import data.DataContract;
 import data.SQLData.AsistenciasFiller;
 import data.SQLData.ClasesTableModel;
-import data.SQLData.Parser.HorariosParse;
 import data.SQLData.Parser.HorariosParse;
 import data.SQLData.Parser.UsuariosParser;
 import data.Usuario;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -38,7 +40,7 @@ import javax.swing.table.TableModel;
  * @author Yknx
  */
 public class AsistenciasForm extends javax.swing.JFrame {
-    public static boolean isDebug=false;
+    public static boolean isDebug=true;
     public static int fixedDay = 3;
     public static int [] fixedHorarios = new int[2];
     /**
@@ -290,23 +292,15 @@ public class AsistenciasForm extends javax.swing.JFrame {
 
         enCursoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1A", "Rafael Pulido", "Programacion Distribuida", "DCOMP LAB"},
-                {"5J", "Carlos Ulibarri", "Sistemas de Hipermedia", "Lab 2"},
-                {"7G", "Luis Avalos", "Bases de Datos", "Lab 3"},
-                {"1H", "Aaron Vazquez", "Etica", "Aula 1"}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "#", "Maestro", "Materia", "Salon"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         enCursoTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(enCursoTable);
 
@@ -355,23 +349,15 @@ public class AsistenciasForm extends javax.swing.JFrame {
 
         futurasTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1A", "Rafael Pulido", "Programacion Distribuida", "DCOMP LAB"},
-                {"5J", "Carlos Ulibarri", "Sistemas de Hipermedia", "Lab 2"},
-                {"7G", "Luis Avalos", "Bases de Datos", "Lab 3"},
-                {"1H", "Aaron Vazquez", "Etica", "Aula 1"}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "#", "Maestro", "Materia", "Salon"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         jScrollPane2.setViewportView(futurasTable);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -400,7 +386,26 @@ public class AsistenciasForm extends javax.swing.JFrame {
     }//GEN-LAST:event_UsuarioFieldActionPerformed
 
     private void contrasenaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasenaFieldActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            
+            //String usuario = "alc.ina@telematica.mx";
+            //String password = "109514";
+            String usuario = UsuarioField.getText();
+            String password = contrasenaField.getText();
+            mAsistenciaController = AsistenciaController.getInstance();
+            //ResultSet maestro = mAsistenciaController.setAsistencia(usuario, password,1,13);
+            ResultSet maestro = mAsistenciaController.setAsistencia(usuario, password,fixedDay,horarios[0]);
+            
+            
+            if(!maestro.first()) return;
+            
+            setProfessorData(maestro);
+        } catch (SQLException ex) {
+            Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }//GEN-LAST:event_contrasenaFieldActionPerformed
 
     /**
@@ -436,9 +441,10 @@ public class AsistenciasForm extends javax.swing.JFrame {
             public void run() {
                 form = new AsistenciasForm();
                 form.setVisible(true);
-                URL iconURL = getClass().getResource("/images/app_icon.png");
+                /*URL iconURL = getClass().getResource("/images/app_icon.png");
+                
                 ImageIcon icon = new ImageIcon(iconURL);
-                form.setIconImage(icon.getImage());
+                form.setIconImage(icon.getImage());*/
                 //form.setProfesorImagen(icon);
                 form.prepareData();
                 
@@ -507,18 +513,26 @@ public class AsistenciasForm extends javax.swing.JFrame {
     HorariosParse horas;
     int[] horarios;
     
-    private void setProfessorData(Usuario t, Clase c){
-        maestroNombreLabel.setText(t.nombre);
+    private void setProfessorData(ResultSet raw) throws SQLException{
+       
+        maestroNombreLabel.setText(raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_MAESTRO));
+        claseNombreLabel.setText(raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_MATERIA));
+        salonNombreLabel.setText(raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_SALON));
+        horaInicioLabel.setText(raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_HORARIO_INICIO));
         //TODO: Handle everything else
-        
-        if(t.picture_uri!=null){
-            setProfesorImagen(t.picture_uri);
+        String pic = raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_MAESTRO_PICTURES);
+        if(pic!=null){
+            setProfesorImagen(pic);
         }
     }
-    private void setProfessorData(int t){
+    /*private void setProfessorData(int t){
         setProfessorData(mMaestrosParser.get(t), new Clase());
-    }
+    }*/
     
+    private void getAndSetRawUserData(){
+        
+    }
+    private AsistenciaController mAsistenciaController;
     private void prepareData() {
         
             int todayNumeric = getDate();
@@ -526,7 +540,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
         try {
             horas = HorariosParse.with(Utility.DB_STRING);
             mMaestrosParser = UsuariosParser.with(Utility.DB_STRING);
-            
+            mAsistenciaController = AsistenciaController.getInstance();
             if(!isDebug) mAsistenciasFiller = new AsistenciasFiller(Utility.DB_STRING,todayNumeric);
             else mAsistenciasFiller = new AsistenciasFiller(Utility.DB_STRING,fixedDay);
         } catch (ClassNotFoundException | SQLException | ParseException ex) {
@@ -534,6 +548,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
         }
             horarios = horas.getClosest();
             mAsistenciasFiller.fill();
+            
             if(!isDebug){
                 modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, horarios[0],todayNumeric);
                 modelFuturas = ClasesTableModel.with(Utility.DB_STRING, horarios[1],todayNumeric);
