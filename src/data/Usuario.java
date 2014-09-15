@@ -10,6 +10,7 @@ import app.Utility;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -35,8 +36,31 @@ public class Usuario {
     private static int getMask(int input){
         return ~(0b11111111 ^ input);
     }
-    public static boolean hasPermission(int permission){
-        return (permission & getMask(permission)) == permission;
+    public static boolean hasPermission(int permission, int toLook){
+        return (permission & getMask(toLook)) == toLook;
+    }
+    public static Integer[] getPermissions(int permission){
+        ArrayList<Integer> perns = new ArrayList<>();
+        if(hasPermission(permission, ADMINISTRATIVE_PERSONNEL)) perns.add(ADMINISTRATIVE_PERSONNEL);
+        if(hasPermission(permission, PROFESSOR)) perns.add(PROFESSOR);
+        if(hasPermission(permission, SYSTEM_ADMIN)) perns.add(SYSTEM_ADMIN);
+        if(hasPermission(permission, EXTRA_FLAG)) perns.add(EXTRA_FLAG);
+        
+        return  (Integer[]) perns.toArray(new Integer[perns.size()]);
+    }
+    public static String permissionName(int Permission){
+        switch(Permission){
+            case ADMINISTRATIVE_PERSONNEL:
+                return "Personal Administrativo";
+                case PROFESSOR:
+                return "Profesor";
+                    case SYSTEM_ADMIN:
+                return "Administrador del Sistema";
+                        case EXTRA_FLAG:
+                return "EXTRA FLAG";
+                            default:
+                return "PERMISO INVALIDO";
+        }
     }
     
     

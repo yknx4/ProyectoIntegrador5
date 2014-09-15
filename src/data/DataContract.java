@@ -83,11 +83,11 @@ public class DataContract {
         public static final String COLUMN_DIA = "dia";
         public static final String COLUMN_SALON = "salon";
         public static final String COLUMN_ID_HORARIO = "id_Horarios";
-        public static final String COLUMN_MAESTRO_PASSWORD = "passhash";
         public static final String COLUMN_MAESTRO_PERMISSIONS = "permission";
         public static final String COLUMN_MAESTRO_PICTURES = "picture";
         public static final String COLUMN_MAESTRO_EMAIL = "email";
         public static final String COLUMN_HORARIO_INICIO = "inicio";
+        public static final String COLUMN_ID_GRUPO = "id_grupo";
         
         
         
@@ -285,7 +285,7 @@ public class DataContract {
     public static class AsistenciaEntry implements BaseColumns {
         public static final String TABLE_NAME = "Asistencias";
         public static final String COLUMN_ID_CLASE = "id_Clases";
-        public static final String COLUMN_ID_USUARIO = "id_Maestros";
+        public static final String COLUMN_ID_USUARIO = "id_usuarios";
         public static final String COLUMN_FECHA = "fecha";
         public static final String COLUMN_TIMESTAMP_CREATED = "created";
         public static final String COLUMN_TIMESTAMP_MODIFIED = "modified";

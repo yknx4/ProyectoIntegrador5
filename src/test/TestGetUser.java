@@ -20,16 +20,18 @@ public class TestGetUser {
      * @throws java.sql.SQLException
      */
     public static void main(String[] args) throws SQLException {
-        AsistenciaController m = AsistenciaController.getInstance();
-        String usuario = "alc.ina@telematica.mx";
-        String password = "109514";
+        AsistenciaController m = AsistenciaController.getInstance(4,14);
+        //String usuario = "alc.ina@telematica.mx";
+        //String usuario = "moc.ose@telematica.mx";
+         String usuario = "bri.ian@telematica.mx";
+        String password = "password";
         System.out.println("Pass: "+password);
-        System.out.println("ID de "+usuario+" :"+m.getUser(usuario, password));
-        System.out.println("-> "+usuario+" :"+m.setAsistencia(usuario, password,1,13));
+       // System.out.println("ID de "+usuario+" :"+m.getUser(usuario, password));
+        System.out.println("-> "+usuario+" :"+m.setAsistencia(usuario, password));
         
         password = "invalid";
         System.out.println("Pass: "+password);
-        System.out.println("ID de "+usuario+" :"+m.getUser(usuario, password));
+      //  System.out.println("ID de "+usuario+" :"+m.getUser(usuario, password));
        
         // TODO code application logic here
     }

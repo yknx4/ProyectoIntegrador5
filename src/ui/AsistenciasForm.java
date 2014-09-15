@@ -41,8 +41,8 @@ import javax.swing.table.TableModel;
  */
 public class AsistenciasForm extends javax.swing.JFrame {
     public static boolean isDebug=true;
-    public static int fixedDay = 3;
-    public static int [] fixedHorarios = new int[2];
+    public static int fixedDay = 4;
+    public static int [] fixedHorarios = {14,15};
     /**
      * Creates new form AsistenciasForm
      */
@@ -393,14 +393,14 @@ public class AsistenciasForm extends javax.swing.JFrame {
             //String password = "109514";
             String usuario = UsuarioField.getText();
             String password = contrasenaField.getText();
-            mAsistenciaController = AsistenciaController.getInstance();
+            mAsistenciaController = AsistenciaController.getInstance(fixedDay,horarios[0]);
             //ResultSet maestro = mAsistenciaController.setAsistencia(usuario, password,1,13);
-            ResultSet maestro = mAsistenciaController.setAsistencia(usuario, password,fixedDay,horarios[0]);
+            boolean maestro = mAsistenciaController.setAsistencia(usuario, password);
             
             
-            if(!maestro.first()) return;
+            if(!maestro) return;
             
-            setProfessorData(maestro);
+            setProfessorData(mAsistenciaController.getRawData());
         } catch (SQLException ex) {
             Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -547,14 +547,15 @@ public class AsistenciasForm extends javax.swing.JFrame {
             Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
         }
             horarios = horas.getClosest();
+            if(isDebug) horarios = fixedHorarios;
             mAsistenciasFiller.fill();
             
             if(!isDebug){
                 modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, horarios[0],todayNumeric);
                 modelFuturas = ClasesTableModel.with(Utility.DB_STRING, horarios[1],todayNumeric);
             }else{
-                modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, horarios[0],fixedDay);
-                modelFuturas = ClasesTableModel.with(Utility.DB_STRING, horarios[1],fixedDay);
+                modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, fixedHorarios[0],fixedDay);
+                modelFuturas = ClasesTableModel.with(Utility.DB_STRING, fixedHorarios[1],fixedDay);
             }
             updateTables();
     }

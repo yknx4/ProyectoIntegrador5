@@ -2,6 +2,7 @@ package app;
 
 import data.SQLData.Join;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 
@@ -17,10 +18,21 @@ import java.text.SimpleDateFormat;
  */
 public class Utility {
     public static SimpleDateFormat SQLDateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    public static String getFormalDate(int year, int month, int day){
+        
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        c.set(year, month, day, 0, 0, 0);
+        return sdf.format(c.getTime());
+    }
     public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
                             + "user=root&password=konami1994";
     public static String removeLast(final String input){
         return input.substring(0,input.length()-1);
+    }
+    public static Calendar globalCalendar = Calendar.getInstance();
+    public void resetCalendar(){
+        globalCalendar = Calendar.getInstance();
     }
     public static String arrayToCSV(final String[] values){
          String csv="";
