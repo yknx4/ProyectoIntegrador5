@@ -314,6 +314,36 @@ public class DataContract {
 
     }
 
+    public static class CheckInEntry implements BaseColumns {
+        public static final String TABLE_NAME = "check_ins";
+        public static final String COLUMN_ID_USUARIO = "id_usuario";
+        public static final String COLUMN_FECHA = "fecha";
+        public static final String COLUMN_TIMESTAMP_CREATED = "created";
+        public static final String COLUMN_TIMESTAMP_MODIFIED = "modified";
+        public static final String COLUMN_JUSTIFICO = "justificio";
+
+        @Override
+        public String getQuery() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getInsert() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getDelete() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getUpdate() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+    }
+
 
 
 

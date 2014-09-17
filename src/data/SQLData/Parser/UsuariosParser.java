@@ -29,6 +29,7 @@ import java.util.logging.Logger;
  * @author Yknx
  */
 public class UsuariosParser {
+    private final static Logger LOGGER = Logger.getLogger(UsuariosParser.class.getName());
     public static UsuariosParser with(String con) throws ClassNotFoundException, SQLException, ParseException {
         Class.forName("com.mysql.jdbc.Driver");
                 // setup the connection with the DB.

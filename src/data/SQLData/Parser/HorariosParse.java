@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  * @author 5j
  */
 public class HorariosParse {
-
+private final static Logger LOGGER = Logger.getLogger(HorariosParse.class.getName());
     public static HorariosParse with(String con) throws ClassNotFoundException, SQLException, ParseException {
         Class.forName("com.mysql.jdbc.Driver");
                 // setup the connection with the DB.

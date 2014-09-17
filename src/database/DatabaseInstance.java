@@ -19,6 +19,7 @@ import java.util.logging.Logger;
  * @author Yknx
  */
 public class DatabaseInstance {
+    private final static Logger LOGGER = Logger.getLogger(DatabaseInstance.class.getName());
     private final Connection instance;
     private static DatabaseInstance holder;
 

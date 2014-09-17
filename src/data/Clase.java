@@ -9,12 +9,14 @@ package data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Yknx
  */
 public class Clase {
+    private final static Logger LOGGER = Logger.getLogger(Clase.class.getName());
     public long id;
     public long maestro;
     public short dia;

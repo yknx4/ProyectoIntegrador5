@@ -41,6 +41,7 @@ import javax.swing.table.AbstractTableModel;
  * @author Yknx
  */
 public class ClasesTableModel extends AbstractTableModel {
+    private final static Logger LOGGER = Logger.getLogger(ClasesTableModel.class.getName());
     private final int         dia;
     private ArrayList<Object> cache;    // will hold String[] objects . . .
     private ListaClasesCursoDataWorker        getDataWorker;

@@ -12,12 +12,14 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Yknx
  */
 public class Usuario {
+    private final static Logger LOGGER = Logger.getLogger(Usuario.class.getName());
     /*
     b0 : Administrative Personnel
     b1 : Professor

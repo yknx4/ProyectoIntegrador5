@@ -31,6 +31,7 @@ import java.util.logging.Logger;
  * @author Yknx
  */
 public class AsistenciasFiller {
+    private final static Logger LOGGER = Logger.getLogger(AsistenciasFiller.class.getName());
     private final int dia;
     private final Connection con;
     private static final String[] columnsAssist = {AsistenciaEntry.COLUMN_ID_CLASE,AsistenciaEntry.COLUMN_ID_USUARIO,AsistenciaEntry.COLUMN_FECHA};
@@ -52,6 +53,7 @@ public class AsistenciasFiller {
     public void fill(){
         try {
             //System.out.println("INICIA LLENADO");
+            
             final String finsert = Utility.SQLHelper.generateInsert(DataContract.AsistenciaEntry.TABLE_NAME, columnsAssist,Utility.SQLHelper.INSERT_MODE_IGNORE);
             PreparedStatement st ;
             ResultSet res = getDataWorker.get();

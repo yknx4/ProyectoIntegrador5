@@ -26,7 +26,7 @@ import javax.swing.SwingWorker;
  * @author Yknx
  */
 public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
-
+        private final static Logger LOGGER = Logger.getLogger(ListaClasesCursoDataWorker.class.getName());
         /** Field description */
         PreparedStatement  statement;
         private Connection connect;
