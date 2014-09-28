@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +33,7 @@ public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
         private Connection connect;
         private int        dia;
         private boolean allHorarios = false;
+        private final static int INVALID_VALUE = -1;
 
         /** Field description */
         int horario;
@@ -49,35 +51,24 @@ public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
          * @throws SQLException
          */
         public ListaClasesCursoDataWorker(int horario, int dia) throws SQLException {
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-
-                // setup the connection with the DB.
-                //connect      = DriverManager.getConnection(con);
-                connect = DatabaseInstance.getInstance();
+                this();
                 this.horario = horario;
                 this.dia     = dia;
                 statement    = connect.prepareStatement(getQuery());
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ClasesTableModel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                LOGGER.log(Level.CONFIG, "Horario set to: {0}.\n Dia set to: {1}", new Object[]{horario, dia});
         }
         
         public ListaClasesCursoDataWorker(int horario, int dia, String[] columns) throws SQLException {
-                // setup the connection with the DB.
-                //connect      = con;
-            connect = DatabaseInstance.getInstance();
-                this.horario = horario;
-                this.dia     = dia;
+                this(horario,dia);
                 statement    = connect.prepareStatement(getQuery(columns));
         }
         public ListaClasesCursoDataWorker(int dia, String[] columns) throws SQLException {
-                //connect      = con;
-            connect = DatabaseInstance.getInstance();
-                this.dia     = dia;
+                this(INVALID_VALUE,dia,columns);
                 setAllHorarios(true);
-                statement    = connect.prepareStatement(getQuery(columns));
-                
+        }
+        private ListaClasesCursoDataWorker() throws SQLException{
+            LOGGER.info("ListaClasesCursoDataWorker Created!");
+            connect = DatabaseInstance.getInstance();
         }
         
         
@@ -106,7 +97,7 @@ public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
             query += " ";
             if(!allHorarios)query += Utility.SQLHelper.generateWhere(where, type);
             else query+= SQLHelper.generateWhere(ListaClaseCursoEntry.COLUMN_DIA, SQLHelper.WHERE_TYPE_EQUAL);
-            System.out.println(query);
+            //System.out.println(query);
 
             return query;
     }
@@ -129,12 +120,17 @@ public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
             statement.setInt(2, dia);
             }
             // statement.setAsciiStream(horario, null);
-            System.out.println("INICIADO " + statement.toString());
+            //System.out.println("INICIADO " + statement.toString());
+            LOGGER.log(Level.INFO, "Started with: {0}", statement.toString());
 
             ResultSet rs = statement.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            
+            LOGGER.info("Result metadata: "+rsmd.toString());
+            
 
-            Logger.getLogger(ClasesTableModel.class.getName()).log(Level.INFO, null, statement.toString());
-            System.out.println(statement.toString());
+            //Logger.getLogger(ClasesTableModel.class.getName()).log(Level.INFO, null, statement.toString());
+            //System.out.println(statement.toString());
 
             return rs;
         }
