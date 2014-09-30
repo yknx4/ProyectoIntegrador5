@@ -44,7 +44,9 @@ import javax.swing.table.TableModel;
  */
 public class AsistenciasForm extends javax.swing.JFrame {
     private final static Logger LOGGER = Logger.getLogger(AsistenciasForm.class.getName());
+
     public static boolean isDebug=Utility.isDebug;
+
     public static int fixedDay = 4;
     public static int [] fixedHorarios = {14,15};
     /**
