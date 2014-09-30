@@ -35,6 +35,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.table.TableModel;
 
@@ -389,19 +390,34 @@ public class AsistenciasForm extends javax.swing.JFrame {
 
     private void UsuarioFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioFieldActionPerformed
         // TODO add your handling code here:
+        contrasenaFieldActionPerformed(evt);
     }//GEN-LAST:event_UsuarioFieldActionPerformed
 
     private void contrasenaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasenaFieldActionPerformed
+        
+        
         try {
             // TODO add your handling code here:
             
+            
             //String usuario = "alc.ina@telematica.mx";
             //String password = "109514";
+            if(UsuarioField.getText().isEmpty()){
+                UsuarioField.requestFocus();
+                infoLabel.setText("Favor de ingresar un usuario.");
+                return;
+            }
             String usuario = UsuarioField.getText();
             usuario = usuario.replaceAll("@telematica.mx", "");
             usuario = usuario.trim();
             usuario = usuario.concat("@telematica.mx");
+            if(contrasenaField.getText().isEmpty()){
+                contrasenaField.requestFocus();
+                infoLabel.setText("Favor de ingresar la contraseña.");
+                return;
+            }
             String password = contrasenaField.getText();
+            
             mAsistenciaController = AsistenciaController.getInstance(dia,horarios[0]);
             //ResultSet maestro = mAsistenciaController.setAsistencia(usuario, password,1,13);
             boolean maestro = mAsistenciaController.setAsistencia(usuario, password);
@@ -606,7 +622,8 @@ public class AsistenciasForm extends javax.swing.JFrame {
             setProfesorImagen(image);
             t = false;
         } catch (IOException ex) {
-            Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.info("Image not found. Loading Default.");
             filename = "no_exist.jpg";
             }
         }
