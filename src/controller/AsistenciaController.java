@@ -184,7 +184,7 @@ public class AsistenciaController {
             //System.out.println(query);
             ResultSet res2;
             res2 = query.executeQuery();
-            if(res2.first()){2
+            if(res2.first()){
                 res.id = res2.getLong(UsuarioEntry._ID);
                 res.perm = res2.getInt(UsuarioEntry.COLUMN_PERMISSIONS);
                 LOGGER.log(Level.INFO, "User data is: {0}", res.toString());
