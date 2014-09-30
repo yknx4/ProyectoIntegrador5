@@ -8,23 +8,13 @@ package data.SQLData;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import app.Utility;
-
-import app.Utility.SQLHelper;
-
-import data.BaseColumns;
 import data.DataContract;
 
-import data.DataContract.HorarioEntry;
 import data.DataContract.ListaClaseCursoEntry;
-import data.DataContract.ListaClaseEntry;
 import data.SQLData.Getters.ListaClasesCursoDataWorker;
 
 //~--- JDK imports ------------------------------------------------------------
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -33,7 +23,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -48,8 +37,6 @@ public class ClasesTableModel extends AbstractTableModel {
     private final int         horario;
     private int               colCount;
     private String[]          headers;
-    private final String      db;
-    private String            currentURL;
 
     /**
      * Constructs a ClasesTableModel
@@ -62,8 +49,8 @@ public class ClasesTableModel extends AbstractTableModel {
      * @param diac
      * A valid value for dia (1-index)
      */
-    private ClasesTableModel(String dbs, int horarioc, int diac) {
-        db      = dbs;
+    private ClasesTableModel( int horarioc, int diac) {
+       
         horario = horarioc;
         dia     = diac;
         cache   = new ArrayList();
@@ -133,14 +120,13 @@ public class ClasesTableModel extends AbstractTableModel {
      * Method description
      *
      *
-     * @param conn
      * @param horarioc
      * @param diac
      *
      * @return
      */
-    public static ClasesTableModel with(String conn, int horarioc, int diac) {
-        ClasesTableModel res = new ClasesTableModel(conn, horarioc, diac);
+    public static ClasesTableModel with( int horarioc, int diac) {
+        ClasesTableModel res = new ClasesTableModel( horarioc, diac);
 
         return res;
     }

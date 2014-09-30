@@ -44,7 +44,7 @@ import javax.swing.table.TableModel;
  */
 public class AsistenciasForm extends javax.swing.JFrame {
     private final static Logger LOGGER = Logger.getLogger(AsistenciasForm.class.getName());
-    public static boolean isDebug=true;
+    public static boolean isDebug=Utility.isDebug;
     public static int fixedDay = 4;
     public static int [] fixedHorarios = {14,15};
     /**
@@ -571,8 +571,8 @@ public class AsistenciasForm extends javax.swing.JFrame {
     }
     private void resetTables(){
         
-                modelEnCurso = ClasesTableModel.with(Utility.DB_STRING, horarios[0],dia);
-                modelFuturas = ClasesTableModel.with(Utility.DB_STRING, horarios[1],dia);
+                modelEnCurso = ClasesTableModel.with( horarios[0],dia);
+                modelFuturas = ClasesTableModel.with( horarios[1],dia);
             
             updateTables();
     }
@@ -591,13 +591,22 @@ public class AsistenciasForm extends javax.swing.JFrame {
     }
 
     private void setProfesorImagen(String picture_uri) {
+        boolean t = true;
+        int cnt = 0;
+        String filename = picture_uri;
+        while(t || cnt>10){
+            cnt++;
         try {
-            URL url = new URL(picture_uri);
+            //URL url = new URL(picture_uri);
+            URL url = new URL(Utility.SERVER_PATH+Utility.IMG_PATH+filename);
             BufferedImage c = ImageIO.read(url);
             ImageIcon image = new ImageIcon(c);
             setProfesorImagen(image);
+            t = false;
         } catch (IOException ex) {
             Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
+            filename = "no_exist.jpg";
+            }
         }
     }
 

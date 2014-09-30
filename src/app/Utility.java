@@ -19,6 +19,9 @@ import java.util.logging.Logger;
  * @author Yknx
  */
 public class Utility {
+    public static boolean isDebug = false;
+    public static String SERVER_PATH="http://localhost/";
+    public static String IMG_PATH="img/";
     private final static Logger LOGGER = Logger.getLogger(Utility.class.getName());
     public static SimpleDateFormat SQLDateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     public static String getFormalDate(int year, int month, int day){
@@ -30,7 +33,9 @@ public class Utility {
         LOGGER.log(Level.FINER, "Requested formal date is: {0}", result);
         return result;
     }
-    public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
+    //public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
+//                            + "user=root&password=konami1994";
+    public static final String DB_STRING ="jdbc:mysql://localhost:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
                             + "user=root&password=konami1994";
     public static String removeLast(final String input){
         return input.substring(0,input.length()-1);

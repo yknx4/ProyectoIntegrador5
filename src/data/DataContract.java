@@ -208,10 +208,14 @@ public class DataContract {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
+    
+    
     public static class HorarioEntry implements BaseColumns {
         public static final String TABLE_NAME = "Horarios";
         public static final String COLUMN_INICIO  = "inicio";
         public static final String COLUMN_DURACION  = "duracion";
+        
+        
 
         @Override
         public String getQuery() {
