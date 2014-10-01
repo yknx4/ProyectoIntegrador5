@@ -4,14 +4,15 @@
  * and open the template in the editor.
  */
 
-package data.SQLData.Getters;
+package model.SQLData.Getters;
 
-import app.Utility;
-import app.Utility.SQLHelper;
-import data.DataContract;
-import data.DataContract.ListaClaseCursoEntry;
-import data.SQLData.ClasesTableModel;
-import database.DatabaseInstance;
+import controller.SQLData.SQLHelper;
+import helper.Utility;
+import controller.SQLData.SQLHelper;
+import model.database.DataContract;
+import model.database.DataContract.ListaClaseCursoEntry;
+import model.SQLData.ClasesTableModel;
+import model.database.DatabaseInstance;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -91,11 +92,11 @@ public class ListaClasesCursoDataWorker extends SwingWorker<ResultSet, Void> {
             
             final String[] where = { DataContract.ListaClaseCursoEntry.COLUMN_ID_HORARIO, DataContract.ListaClaseCursoEntry.COLUMN_DIA };
             
-            final int[]    type  = { Utility.SQLHelper.WHERE_TYPE_EQUAL, Utility.SQLHelper.WHERE_TYPE_EQUAL };
+            final int[]    type  = { SQLHelper.WHERE_TYPE_EQUAL, SQLHelper.WHERE_TYPE_EQUAL };
 
-            query += Utility.SQLHelper.generateSelect(DataContract.ListaClaseCursoEntry.TABLE_NAME, columns);
+            query += SQLHelper.generateSelect(DataContract.ListaClaseCursoEntry.TABLE_NAME, columns);
             query += " ";
-            if(!allHorarios)query += Utility.SQLHelper.generateWhere(where, type);
+            if(!allHorarios)query += SQLHelper.generateWhere(where, type);
             else query+= SQLHelper.generateWhere(ListaClaseCursoEntry.COLUMN_DIA, SQLHelper.WHERE_TYPE_EQUAL);
             //System.out.println(query);
 

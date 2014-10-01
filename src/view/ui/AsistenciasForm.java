@@ -4,38 +4,30 @@
  * and open the template in the editor.
  */
 
-package ui;
+package view.ui;
 
-import app.Utility;
+import helper.Utility;
 import controller.AsistenciaController;
-import data.Clase;
-import data.DataContract;
-import data.SQLData.AsistenciasFiller;
-import data.SQLData.ClasesTableModel;
-import data.SQLData.Parser.HorariosParse;
-import data.SQLData.Parser.UsuariosParser;
-import data.Usuario;
+import model.database.DataContract;
+import model.SQLData.AsistenciasFiller;
+import model.SQLData.ClasesTableModel;
+import controller.SQLData.Parser.HorariosParse;
+import controller.SQLData.Parser.UsuariosParser;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-import java.util.logging.StreamHandler;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.table.TableModel;
 
@@ -420,18 +412,18 @@ public class AsistenciasForm extends javax.swing.JFrame {
             
             mAsistenciaController = AsistenciaController.getInstance(dia,horarios[0]);
             //ResultSet maestro = mAsistenciaController.setAsistencia(usuario, password,1,13);
-            boolean maestro = mAsistenciaController.setAsistencia(usuario, password);
+            mAsistenciaController.setAsistencia(usuario, password);
                infoLabel.setText(mAsistenciaController.getMessage());
-               
-            if(!maestro){
-                return;
-            }
-            
+
             setProfessorData(mAsistenciaController.getRawData());
             resetUserData();
             resetTables();
         } catch (SQLException ex) {
             Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
+            infoLabel.setText(mAsistenciaController.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
+            infoLabel.setText(mAsistenciaController.getMessage());
         }
         
         

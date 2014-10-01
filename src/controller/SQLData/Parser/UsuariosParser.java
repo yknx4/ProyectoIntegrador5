@@ -4,14 +4,15 @@
  * and open the template in the editor.
  */
 
-package data.SQLData.Parser;
+package controller.SQLData.Parser;
 
-import app.Utility;
-import data.BaseColumns;
-import data.DataContract;
-import data.DataContract.UsuarioEntry;
-import data.Horario;
-import data.Usuario;
+import controller.SQLData.SQLHelper;
+import helper.Utility;
+import model.database.BaseColumns;
+import model.database.DataContract;
+import model.database.DataContract.UsuarioEntry;
+import model.Horario;
+import model.Usuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -66,7 +67,7 @@ public class UsuariosParser {
     
     private String getQuery(){
         String query="";
-        query+= Utility.SQLHelper.generateSelect(DataContract.UsuarioEntry.TABLE_NAME, null);
+        query+= SQLHelper.generateSelect(DataContract.UsuarioEntry.TABLE_NAME, null);
         return query;
     }
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

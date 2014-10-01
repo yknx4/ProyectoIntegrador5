@@ -4,15 +4,15 @@
  * and open the template in the editor.
  */
 
-package data.SQLData.Parser;
+package controller.SQLData.Parser;
 
-import app.Utility;
-import app.Utility.SQLHelper;
-import data.BaseColumns;
-import data.Clase;
-import data.DataContract;
-import data.DataContract.HorarioEntry;
-import data.Horario;
+import helper.Utility;
+import controller.SQLData.SQLHelper;
+import model.database.BaseColumns;
+import model.Clase;
+import model.database.DataContract;
+import model.database.DataContract.HorarioEntry;
+import model.Horario;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;

@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package data.SQLData;
+package model.SQLData;
 
-import app.Utility;
+import controller.SQLData.SQLHelper;
+import helper.Utility;
 
 /**
  *
@@ -24,7 +25,7 @@ public class Join{
                 return mJoin;
             }
             public String getString(){
-                return Utility.SQLHelper.generateJoin(_type, _tableName, _tables, _from, _to);
+                return SQLHelper.generateJoin(_type, _tableName, _tables, _from, _to);
             }
             private int _type;
             private String _tableName;

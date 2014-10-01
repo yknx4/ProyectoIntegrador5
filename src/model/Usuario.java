@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package data;
+package model;
 
-import app.Utility;
+import model.database.DataContract;
+import helper.Utility;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;

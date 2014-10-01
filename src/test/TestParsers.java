@@ -6,8 +6,8 @@
 
 package test;
 
-import app.Utility;
-import data.SQLData.Parser.ClasesParser;
+import helper.Utility;
+import controller.SQLData.Parser.ClasesParser;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;

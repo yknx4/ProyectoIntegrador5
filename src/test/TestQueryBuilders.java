@@ -8,15 +8,15 @@ package test;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import app.Utility;
+import controller.SQLData.SQLHelper;
+import helper.Utility;
 
-import app.Utility.SQLHelper;
+import controller.SQLData.SQLHelper;
 
-import data.DataContract;
+import model.database.DataContract;
+import model.database.DataContract.AsistenciaEntry;
 
-import data.DataContract.AsistenciaEntry;
-
-import data.SQLData.Join;
+import model.SQLData.Join;
 
 /**
  *
@@ -39,18 +39,18 @@ public class TestQueryBuilders {
         String[] from   = { "t2.a", "t3.b", "t4.c" };
         String[] to     = { "t1.a", "t1.b", "t1.c" };
         int[]    types  = { 0, 1, 2 };
-        int      type   = Utility.SQLHelper.TYPE_INNER_JOIN;
-        String   fjoin  = Utility.SQLHelper.generateJoin(type, "t1", tables, from, to);
+        int      type   = SQLHelper.TYPE_INNER_JOIN;
+        String   fjoin  = SQLHelper.generateJoin(type, "t1", tables, from, to);
         Join     j1, j2;
 
         j1 = Join.generateJoin(type, fjoin, tables, from, to);
-        j2 = Join.generateJoin(Utility.SQLHelper.TYPE_LEFT_JOIN, fjoin, tables, from, to);
+        j2 = Join.generateJoin(SQLHelper.TYPE_LEFT_JOIN, fjoin, tables, from, to);
 
-        String   fselect = Utility.SQLHelper.generateSelect("t1", null);
-        String   fwhere  = Utility.SQLHelper.generateWhere(to, types);
+        String   fselect = SQLHelper.generateSelect("t1", null);
+        String   fwhere  = SQLHelper.generateWhere(to, types);
         String[] insCOl  = { AsistenciaEntry.COLUMN_ID_CLASE, AsistenciaEntry.COLUMN_ID_USUARIO,
                              AsistenciaEntry.COLUMN_FECHA };
-        String finsert = Utility.SQLHelper.generateInsert(AsistenciaEntry.TABLE_NAME, insCOl,
+        String finsert = SQLHelper.generateInsert(AsistenciaEntry.TABLE_NAME, insCOl,
                              SQLHelper.INSERT_MODE_IGNORE);
 
         System.out.println(fselect);

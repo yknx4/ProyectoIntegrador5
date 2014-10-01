@@ -4,17 +4,18 @@
  * and open the template in the editor.
  */
 
-package data.SQLData;
+package model.SQLData;
 
-import app.Utility;
-import app.Utility.SQLHelper;
-import data.BaseColumns;
-import data.DataContract;
-import data.DataContract.AsistenciaEntry;
-import data.DataContract.ClaseEntry;
-import data.SQLData.Getters.ListaClasesCursoDataWorker;
-import data.SQLData.Parser.HorariosParse;
-import database.DatabaseInstance;
+import controller.SQLData.SQLHelper;
+import helper.Utility;
+import controller.SQLData.SQLHelper;
+import model.database.BaseColumns;
+import model.database.DataContract;
+import model.database.DataContract.AsistenciaEntry;
+import model.database.DataContract.ClaseEntry;
+import model.SQLData.Getters.ListaClasesCursoDataWorker;
+import controller.SQLData.Parser.HorariosParse;
+import model.database.DatabaseInstance;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -54,7 +55,7 @@ public class AsistenciasFiller {
         try {
             //System.out.println("INICIA LLENADO");
             
-            final String finsert = Utility.SQLHelper.generateInsert(DataContract.AsistenciaEntry.TABLE_NAME, columnsAssist,Utility.SQLHelper.INSERT_MODE_IGNORE);
+            final String finsert = SQLHelper.generateInsert(DataContract.AsistenciaEntry.TABLE_NAME, columnsAssist,SQLHelper.INSERT_MODE_IGNORE);
             PreparedStatement st ;
             ResultSet res = getDataWorker.get();
             while(res.next()){

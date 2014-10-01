@@ -6,23 +6,25 @@
 
 package controller;
 
-import app.Utility;
-import app.Utility.SQLHelper;
-import data.DataContract;
-import data.DataContract.UsuarioEntry;
-import data.Usuario;
-import database.DatabaseInstance;
+import helper.Utility;
+import controller.SQLData.SQLHelper;
+import model.database.DataContract;
+import model.database.DataContract.UsuarioEntry;
+import model.Usuario;
+import model.database.DatabaseInstance;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -33,7 +35,7 @@ public class AsistenciaController {
     private static AsistenciaController _instance;
     private static MessageDigest hasher ;
     private static final String salt = "ho";
-    private Connection db;
+    private final Connection db;
     private int dia;
     private int horario;
     
@@ -198,18 +200,19 @@ public class AsistenciaController {
         return res;
     }
     private String _error;
-    private boolean setAsistencia(int permissionID,long usuario) throws SQLException{
+    private void setAsistencia(int permissionID,long usuario) throws SQLException, Exception{
         LOGGER.log(Level.INFO, "Adding assistance to user {0} and permission {1}", new Object[]{usuario, Usuario.permissionName(permissionID)});
         switch(permissionID){
             case Usuario.ADMINISTRATIVE_PERSONNEL:
-                return setAsistenciaAdministrative(usuario);
+                setAsistenciaAdministrative(usuario);
             case Usuario.PROFESSOR:
-                return setAsistenciaMaestro(usuario);
+                setAsistenciaMaestro(usuario);
             default:
-                return false;
+                Exception e = new Exception(permissionID+" assist not implemented.");
+                throw e;
         }
     }
-    private boolean setAsistenciaAdministrative(long usuario) {
+    private void setAsistenciaAdministrative(long usuario) {
         try {
             String fecha = getFormalDate();
             PreparedStatement as = db.prepareStatement(setAsistenciaAdministrativaQuery());
@@ -222,26 +225,30 @@ public class AsistenciaController {
             }
             else{
                 LOGGER.log(Level.WARNING, "No se pudo a\u00f1adir la asistencia para el usuario {0} en {1}", new Object[]{usuario, fecha});
-                return false;
+                SQLException e = new SQLException("No se pudo a\u00f1adir la asistencia para el usuario "+usuario);
+                throw e;
             }
             
-            return true;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE,ex.toString(),ex);
         }
-        return false;
+        
     }
     private String _message;
     private String _errorMessage="";
     ResultSet rawData;
-    private boolean setAsistenciaMaestro(long usuario) throws SQLException {
+    private void setAsistenciaMaestro(long usuario) throws SQLException {
         boolean resultado = false;
         LOGGER.log(Level.INFO, "Adding asistencia to teacher with id: {0}", usuario);
         ResultSet Data = getAsistenciaDataProfessor(usuario);
         rawData = Data;
         if(rawData == null) {
             LOGGER.log(Level.SEVERE, "Couldn''t get data for professor with id: {0}", usuario);
-            return false;
+            NullPointerException e;
+            _errorMessage = "No se pudo obtener la información del profesor con id: "+usuario;
+            e = new NullPointerException(_errorMessage);
+            //NullPointerException e = new Exception("No se pudo obtener la información del profesor con id: "+usuario);
+            throw e;
         }
         String query;
         
@@ -275,7 +282,6 @@ public class AsistenciaController {
                 as.setString(4, date);
                 System.out.println(as);
                 if(!as.execute() && as.getUpdateCount()>0){
-                    resultado = true;
                     LOGGER.log(Level.INFO, "Asistencia a\u00f1adida para el maestro: {0}", rawData.getString(DataContract.AsistenciaDataViewEntry.COLUMN_MAESTRO));
                 }
                 else{
@@ -285,36 +291,36 @@ public class AsistenciaController {
             }
         }
         
-        return resultado;
+        
     }
-    public boolean setAsistencia(String email, String password){
+    public void setAsistencia(String email, String password) throws Exception{
         UserMeta metaData = getUser(email,password);
         Integer[] permission = Usuario.getPermissions(metaData.perm);
-        boolean res;
+        
         LOGGER.log(Level.INFO, "A\u00f1adiendo asistencia al usuario {0} ({1}).", new Object[]{email, metaData.id});
         for(Integer x:permission){
             try {
-                 res = setAsistencia(x,metaData.id);
-                 if(res){
-                     _message = "Asistencia añadida a "+email;
-                 }else{
-                     _message = "No se pudo anadir asistencia a "+email+": "+_errorMessage;
-                 }
-                return res;
+                 setAsistencia(x,metaData.id);
+                 _message = "Asistencia añadida a "+email;
             } 
             catch(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e){
                 String error = "No puedes tomar asistencia dos veces para la misma clase.";
                 LOGGER.warning(error);
                 LOGGER.log(Level.SEVERE,e.toString(),e);
                 _errorMessage = error;
+                throw new Exception(error);
             }
             catch (SQLException ex) {
                 LOGGER.log(Level.SEVERE,ex.toString(),ex);
+            } catch (Exception ex) {
+                    _message = "No se pudo anadir asistencia a "+email+": "+_errorMessage;
+                Logger.getLogger(AsistenciaController.class.getName()).log(Level.SEVERE, null, ex);
+                throw new Exception(_message);
+                        
             }
             
         }
-        _message = "No se pudo anadir asistencia a "+email+": "+_errorMessage;
-        return false;
+        
     }
     
     private ResultSet getAsistenciaDataProfessor(long id){

@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 
-package data.SQLData.Parser;
+package controller.SQLData.Parser;
 
-import app.Utility;
-import data.BaseColumns;
-import data.Clase;
+import controller.SQLData.SQLHelper;
+import helper.Utility;
+import model.database.BaseColumns;
+import model.Clase;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -49,9 +50,9 @@ public class ClasesParser {
         final int[] type = {mtype};
         final String[] toGet = {BaseColumns._ID};
         String query="";
-        query+= Utility.SQLHelper.generateSelect(tableName, toGet);
+        query+= SQLHelper.generateSelect(tableName, toGet);
         query += " ";
-        query+= Utility.SQLHelper.generateWhere(Columns, type);
+        query+= SQLHelper.generateWhere(Columns, type);
         return query;
     }
     private PreparedStatement getBasicStringStatement(String value, String query){
@@ -69,21 +70,21 @@ public class ClasesParser {
         return res==null?null:res;
     }
     public PreparedStatement getGrupoStatement(String group){
-        String query = getBaseQuery("grupo","grupoHelpView",Utility.SQLHelper.WHERE_TYPE_EQUAL);
+        String query = getBaseQuery("grupo","grupoHelpView",SQLHelper.WHERE_TYPE_EQUAL);
         return getBasicStringStatement(group,query);
     }
     public long getGrupoID(String grupo){
         return getID(getGrupoStatement(grupo));
     }
     public PreparedStatement getMateriaStatement(String materia){
-        String query = getBaseQuery("nombre","Materias",Utility.SQLHelper.WHERE_TYPE_EQUAL);
+        String query = getBaseQuery("nombre","Materias",SQLHelper.WHERE_TYPE_EQUAL);
         return getBasicStringStatement(materia,query);
     }
     public long getMateriaID(String materia){
         return getID(getMateriaStatement(materia));
     }
     public PreparedStatement getMaestroStatement(String maestro){
-        String query = getBaseQuery("nombre","maestros",Utility.SQLHelper.WHERE_TYPE_EQUAL);
+        String query = getBaseQuery("nombre","maestros",SQLHelper.WHERE_TYPE_EQUAL);
         return getBasicStringStatement(maestro,query);
     }
      public long getMaestroID(String maestro){
@@ -91,7 +92,7 @@ public class ClasesParser {
     }
 
     public PreparedStatement getSalonStatement(String salon) {
-        String query = getBaseQuery("nombre","salones",Utility.SQLHelper.WHERE_TYPE_EQUAL);
+        String query = getBaseQuery("nombre","salones",SQLHelper.WHERE_TYPE_EQUAL);
         return getBasicStringStatement(salon,query);
     }
     public long getSalonID(String salon){

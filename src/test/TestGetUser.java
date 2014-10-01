@@ -45,8 +45,13 @@ public class TestGetUser {
 
         System.out.println("Pass: " + password);
 
-        // System.out.println("ID de "+usuario+" :"+m.getUser(usuario, password));
-        System.out.println("-> " + usuario + " :" + m.setAsistencia(usuario, password));
+        try {
+            // System.out.println("ID de "+usuario+" :"+m.getUser(usuario, password));
+            m.setAsistencia(usuario, password);
+        } catch (Exception ex) {
+            Logger.getLogger(TestGetUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("-> " + usuario + " :" + m.getMessage());
 
         /*
          *   System.out.println("Message: "+m.getMessage());

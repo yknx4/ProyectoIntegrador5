@@ -4,14 +4,13 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
  */
-package data.SQLData;
+package model.SQLData;
 
 //~--- non-JDK imports --------------------------------------------------------
 
-import data.DataContract;
-
-import data.DataContract.ListaClaseCursoEntry;
-import data.SQLData.Getters.ListaClasesCursoDataWorker;
+import model.database.DataContract;
+import model.database.DataContract.ListaClaseCursoEntry;
+import model.SQLData.Getters.ListaClasesCursoDataWorker;
 
 //~--- JDK imports ------------------------------------------------------------
 
