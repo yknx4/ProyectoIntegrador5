@@ -1,6 +1,9 @@
 package helper;
 
 import controller.SQLData.SQLHelper;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import model.SQLData.Join;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,6 +26,8 @@ public class Utility {
     public static boolean isDebug = false;
     public static String SERVER_PATH="http://localhost/";
     public static String IMG_PATH="img/";
+    public static String PASSWORD_SALT = "ho";
+    private static MessageDigest hasher ;
     private final static Logger LOGGER = Logger.getLogger(Utility.class.getName());
     public static SimpleDateFormat SQLDateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     public static String getFormalDate(int year, int month, int day){
@@ -33,6 +38,30 @@ public class Utility {
         String result = sdf.format(c.getTime());
         LOGGER.log(Level.FINER, "Requested formal date is: {0}", result);
         return result;
+    }
+    public static byte[] getHash(String input){
+        if(hasher == null){
+            try {
+                hasher = MessageDigest.getInstance("SHA-512");
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Utility.class.getName()).log(Level.SEVERE, null, ex);
+                return new byte[0];
+            }
+        }
+        
+        
+        
+        byte[] finalhash = {};
+        hasher.reset();
+        try {
+            hasher.update(input.getBytes("UTF-8"));
+            finalhash = hasher.digest();
+            LOGGER.log(Level.FINEST, "Hashed {0} into {1}", new Object[]{input, finalhash});
+        } catch (UnsupportedEncodingException ex) {
+            hasher.update(input.getBytes());
+            LOGGER.log(Level.SEVERE,"Incorrect encoding, trying with default. Full error"+ex.toString(),ex);
+        }
+        return finalhash;
     }
     //public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
 //                            + "user=root&password=konami1994";
