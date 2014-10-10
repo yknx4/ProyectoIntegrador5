@@ -156,6 +156,8 @@ public class AsistenciaController {
     }
 
     public String getMessage() {
+        if(_message == null || _message.isEmpty())
+            return _errorMessage;
         return _message;
     }
 
@@ -172,7 +174,7 @@ public class AsistenciaController {
         
     }
     
-    private UserMeta getUser(String email, String password){
+    private UserMeta getUser(String email, String password) throws Exception{
         LOGGER.log(Level.INFO, "Getting user data for {0} with password {1}", new Object[]{email, password.substring(password.length()/2)});
         UserMeta res = new UserMeta();
         res.id = Usuario.INVALID;
@@ -192,12 +194,16 @@ public class AsistenciaController {
                 LOGGER.log(Level.INFO, "User data is: {0}", res.toString());
             }else{
                 LOGGER.warning("Couldn't get data for this user.");
+                _message = "No se pudo añadir asistencia al usuario "+email;
                 _errorMessage = "Usuario o contraseña incorrectos.";
+                _message+=" : "+_errorMessage;
+                throw new Exception(_errorMessage);
             }
+            return res;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE,"Cannot get user data. Full error: "+ex.toString(),ex);
         }
-        return res;
+        return null;
     }
     private String _error;
     private void setAsistencia(int permissionID,long usuario) throws SQLException, Exception{

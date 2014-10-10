@@ -413,7 +413,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
             mAsistenciaController = AsistenciaController.getInstance(dia,horarios[0]);
             //ResultSet maestro = mAsistenciaController.setAsistencia(usuario, password,1,13);
             mAsistenciaController.setAsistencia(usuario, password);
-               infoLabel.setText(mAsistenciaController.getMessage());
+            infoLabel.setText(mAsistenciaController.getMessage());
 
             setProfessorData(mAsistenciaController.getRawData());
             resetUserData();
