@@ -85,7 +85,12 @@ public class UserController {
             System.out.println(query);
             
             result = query.executeQuery();
-            if(!result.first()) result = null;
+            if(!result.first()){
+                result = null;
+                LOGGER.log(Level.WARNING, "Couldn''t get data for user. {0}", username);
+            }else{
+                LOGGER.log(Level.INFO, "User data is: {0}", result.toString());
+            }
             
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE,"Cannot get user data. Full error: "+ex.toString(),ex);

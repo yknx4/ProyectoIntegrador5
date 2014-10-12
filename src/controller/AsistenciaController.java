@@ -8,6 +8,7 @@ package controller;
 
 import helper.Utility;
 import controller.SQLData.SQLHelper;
+import controller.SQLData.UserController;
 import model.database.DataContract;
 import model.database.DataContract.UsuarioEntry;
 import model.Usuario;
@@ -180,20 +181,30 @@ public class AsistenciaController {
         res.id = Usuario.INVALID;
         res.perm = Usuario.INVALID_PERMISSION;
         try {
-            PreparedStatement query = db.prepareStatement(userPassQuery());
+           /* PreparedStatement query = db.prepareStatement(userPassQuery());
             query.setString(1, email);
             String hash = (new HexBinaryAdapter()).marshal(getHash(salt+password));
             query.setString(2, hash.toLowerCase());
             LOGGER.log(Level.FINE, "Query to execute: {0}", query.toString());
-            //System.out.println(query);
+            //System.out.println(query);*/
             ResultSet res2;
-            res2 = query.executeQuery();
-            if(res2.first()){
+            //res2 = query.executeQuery();
+            res2 = UserController.getUser(email, password);
+            /*if(res2.first()){
                 res.id = res2.getLong(UsuarioEntry._ID);
                 res.perm = res2.getInt(UsuarioEntry.COLUMN_PERMISSIONS);
                 LOGGER.log(Level.INFO, "User data is: {0}", res.toString());
             }else{
                 LOGGER.warning("Couldn't get data for this user.");
+                _message = "No se pudo añadir asistencia al usuario "+email;
+                _errorMessage = "Usuario o contraseña incorrectos.";
+                _message+=" : "+_errorMessage;
+                throw new Exception(_errorMessage);
+            }*/
+            if(res2!=null){
+                res.id = res2.getLong(UsuarioEntry._ID);
+                res.perm = res2.getInt(UsuarioEntry.COLUMN_PERMISSIONS);
+            }else{
                 _message = "No se pudo añadir asistencia al usuario "+email;
                 _errorMessage = "Usuario o contraseña incorrectos.";
                 _message+=" : "+_errorMessage;
@@ -214,8 +225,8 @@ public class AsistenciaController {
             case Usuario.PROFESSOR:
                 setAsistenciaMaestro(usuario);
             default:
-                Exception e = new Exception(permissionID+" assist not implemented.");
-                throw e;
+                //Exception e = new Exception(permissionID+" assist not implemented.");
+                //throw e;
         }
     }
     private void setAsistenciaAdministrative(long usuario) {
@@ -248,10 +259,10 @@ public class AsistenciaController {
         LOGGER.log(Level.INFO, "Adding asistencia to teacher with id: {0}", usuario);
         ResultSet Data = getAsistenciaDataProfessor(usuario);
         rawData = Data;
-        if(rawData == null) {
+        if(rawData == null || !rawData.first()) {
             LOGGER.log(Level.SEVERE, "Couldn''t get data for professor with id: {0}", usuario);
             NullPointerException e;
-            _errorMessage = "No se pudo obtener la información del profesor con id: "+usuario;
+            _errorMessage = "No hay clases disponibles para el usuario.";
             e = new NullPointerException(_errorMessage);
             //NullPointerException e = new Exception("No se pudo obtener la información del profesor con id: "+usuario);
             throw e;
@@ -262,7 +273,9 @@ public class AsistenciaController {
         
         int chorario = horario;
         int grupo=0;
+        rawData.beforeFirst();
         while(rawData.next()){
+            
             if(rawData.isFirst()){
                 grupo = rawData.getInt(DataContract.AsistenciaDataViewEntry.COLUMN_ID_GRUPO);
                 
@@ -300,6 +313,9 @@ public class AsistenciaController {
         
     }
     public void setAsistencia(String email, String password) throws Exception{
+        _message ="";
+        _error = "";
+        _errorMessage ="";
         UserMeta metaData = getUser(email,password);
         Integer[] permission = Usuario.getPermissions(metaData.perm);
         

@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Yknx
  */
 public class Utility {
-    public static boolean isDebug = false;
+    public static boolean isDebug = true;
     public static String SERVER_PATH="http://localhost/";
     public static String IMG_PATH="img/";
     public static String PASSWORD_SALT = "ho";
