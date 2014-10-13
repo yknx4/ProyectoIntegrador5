@@ -40,8 +40,7 @@ public class AsistenciasForm extends javax.swing.JFrame {
 
     public static boolean isDebug=Utility.isDebug;
 
-    public static int fixedDay = 4;
-    public static int [] fixedHorarios = {14,15};
+   
     /**
      * Creates new form AsistenciasForm
      */
@@ -522,19 +521,6 @@ public class AsistenciasForm extends javax.swing.JFrame {
     private ClasesTableModel modelEnCurso;
     private ClasesTableModel modelFuturas;
     
-    private int getDate(){
-        Calendar cal = Calendar.getInstance();
-            cal.setFirstDayOfWeek(Calendar.MONDAY);
-            
-            cal.setTime(new Date());
-            int rec = cal.get(Calendar.DAY_OF_WEEK);
-            
-            if(rec<0) rec = 7-rec;
-            else rec -= 2;
-            
-            
-            return rec;
-    }
     HorariosParse horas;
     int[] horarios;
     
@@ -558,15 +544,15 @@ public class AsistenciasForm extends javax.swing.JFrame {
     private AsistenciaController mAsistenciaController;
     private void prepareData() {
         
-            dia = getDate();
+            dia = Utility.getDate();
             
         try {
-            horas = HorariosParse.with(Utility.DB_STRING);
+            horas = HorariosParse.getInstance();
             horarios = horas.getClosest();
             if(isDebug) {
-                horarios = fixedHorarios;
-                if(getDate()>4)
-                dia = fixedDay;
+                horarios = Utility.fixedHorarios;
+                if(Utility.getDate()>4)
+                dia = Utility.fixedDay;
             }
             mMaestrosParser = UsuariosParser.with(Utility.DB_STRING);
             mAsistenciaController = AsistenciaController.getInstance();
@@ -601,24 +587,24 @@ public class AsistenciasForm extends javax.swing.JFrame {
     }
 
     private void setProfesorImagen(String picture_uri) {
-        boolean t = true;
-        int cnt = 0;
+        
+        
         String filename = picture_uri;
-        while(t || cnt>10){
-            cnt++;
+        if(filename.isEmpty())filename = "no_exist.jpg";
         try {
             //URL url = new URL(picture_uri);
             URL url = new URL(Utility.SERVER_PATH+Utility.IMG_PATH+filename);
             BufferedImage c = ImageIO.read(url);
             ImageIcon image = new ImageIcon(c);
             setProfesorImagen(image);
-            t = false;
+           
         } catch (IOException ex) {
             //Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
             LOGGER.info("Image not found. Loading Default.");
-            filename = "no_exist.jpg";
+            
+            
             }
-        }
+        
     }
 
     private void resetUserData() {

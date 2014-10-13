@@ -222,8 +222,10 @@ public class AsistenciaController {
         switch(permissionID){
             case Usuario.ADMINISTRATIVE_PERSONNEL:
                 setAsistenciaAdministrative(usuario);
+                break;
             case Usuario.PROFESSOR:
                 setAsistenciaMaestro(usuario);
+                break;
             default:
                 //Exception e = new Exception(permissionID+" assist not implemented.");
                 //throw e;

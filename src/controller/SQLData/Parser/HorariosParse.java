@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.database.DatabaseInstance;
 
 /**
  *
@@ -42,21 +43,27 @@ import java.util.logging.Logger;
  */
 public class HorariosParse {
 private final static Logger LOGGER = Logger.getLogger(HorariosParse.class.getName());
-    public static HorariosParse with(String con) throws ClassNotFoundException, SQLException, ParseException {
-        Class.forName("com.mysql.jdbc.Driver");
-                // setup the connection with the DB.
-                return with(DriverManager
-                        .getConnection(con)); //To change body of generated methods, choose Tools | Templates.
+    
+    static HorariosParse instance;
+    private HorariosParse() throws SQLException, ParseException{
+        mConnection = DatabaseInstance.getInstance();
+        init();
+        
     }
-    private HorariosParse(){}
     ArrayList<Horario> horarios = new ArrayList<>();
     ResultSet rawData;
     
     public String getHora(int t){
         if(t==0){
-            return "00:00";
+            return "00:00:00";
         }
         return formatter.format(get(t).inicio);
+    }
+     public String getHora(int t, boolean printFriendly){
+        if(t==0){
+            return "00:00";
+        }
+        return sformatter.format(get(t).inicio);
     }
     
     public Date getFullDate(int t){
@@ -88,12 +95,18 @@ private final static Logger LOGGER = Logger.getLogger(HorariosParse.class.getNam
         return r;
     }
     
-    public static HorariosParse with(Connection con) throws SQLException, ParseException{
-        HorariosParse n = new HorariosParse();
-        n.mConnection = con;
-        n.init();
-        return n;
+    public static HorariosParse with() throws SQLException, ParseException{
+        return getInstance();
     }
+     public static HorariosParse getInstance() throws SQLException, ParseException{
+        if(instance==null){
+            instance = new HorariosParse();
+        }
+        return instance;
+    }
+     public int count(){
+         return horarios.size();
+     }
     private void init() throws SQLException, ParseException{
         loadData();
         processData();
@@ -113,6 +126,7 @@ private final static Logger LOGGER = Logger.getLogger(HorariosParse.class.getNam
         
     }
     SimpleDateFormat formatter= new SimpleDateFormat("HH:mm:ss");
+    SimpleDateFormat sformatter= new SimpleDateFormat("HH:mm");
     private void processData() throws SQLException, ParseException {
         
         Horario nuevo;

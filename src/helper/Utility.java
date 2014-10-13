@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import model.SQLData.Join;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +29,8 @@ public class Utility {
     public static String IMG_PATH="img/";
     public static String PASSWORD_SALT = "ho";
     private static MessageDigest hasher ;
+     public static int fixedDay = 4;
+    public static int [] fixedHorarios = {14,15};
     private final static Logger LOGGER = Logger.getLogger(Utility.class.getName());
     public static SimpleDateFormat SQLDateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     public static String getFormalDate(int year, int month, int day){
@@ -114,6 +117,19 @@ public class Utility {
 
 
         return query;
+    }
+
+    public static int getDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        int rec = cal.get(Calendar.DAY_OF_WEEK);
+        System.out.println("Dia segun java: " + rec);
+        rec -= 2;
+        if (rec < 0) {
+            rec = 7 + rec;
+        }
+        System.out.println("Dia segun sho: " + rec);
+        return rec;
     }
     
     

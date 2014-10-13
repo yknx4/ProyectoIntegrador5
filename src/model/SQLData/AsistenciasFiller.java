@@ -47,7 +47,7 @@ public class AsistenciasFiller {
         this.dia = dia;
         con = DatabaseInstance.getInstance();
         getDataWorker = new ListaClasesCursoDataWorker(dia, columnsClases);
-        horas = HorariosParse.with(db);
+        horas = HorariosParse.with();
         getDataWorker.execute();
     }
     

@@ -348,7 +348,36 @@ public class DataContract {
 
     }
 
+  public static class HorarioMaestroEntry implements BaseColumns {
+        public static final String TABLE_NAME = "horariomaestro";
+        public static final String COLUMN_ID_MAESTRO = "id_maestro";
+        public static final String COLUMN_MATERIA = "materia";
+        public static final String COLUMN_SALON = "salon";
+        public static final String COLUMN_DIA = "dia";
+        public static final String COLUMN_HORARIO = "horario";
+        public static final String COLUMN_HORA = "hora";
 
+        @Override
+        public String getQuery() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getInsert() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getDelete() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getUpdate() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+    }
 
 
 
