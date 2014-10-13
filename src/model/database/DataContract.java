@@ -379,7 +379,44 @@ public class DataContract {
 
     }
 
+    public static class ClasesWebEntry implements BaseColumns {
+        public static final String TABLE_NAME = "listaclasesweb";
+        public static final String COLUMN_ID_USUARIO = "id_usuario";
+        public static final String COLUMN_HORA = "hora";
+        public static final String COLUMN_DIA = "dia";
+        public static final String COLUMN_HORARIO = "horario";
+        public static final String COLUMN_SALON = "salon";
+        public static final String COLUMN_MINUTES = "min";
+//        public static final String COLUMN_LATE = "late";
+        public static final String COLUMN_MATERIA = "materia";
+        public static final String COLUMN_GRUPO = "grupo";
+        public static final String COLUMN_FECHA_ASISTIO = "fecha_asistio";
+        public static final String COLUMN_FECHA_JUSTIFICO = "fecha_justifico";
+        public static final String COLUMN_ASISTIO = "asistio";
+        public static final String COLUMN_JUSTIFICO = "justifico";
+        public static final String COLUMN_MAESTRO = "maestro";
 
+        @Override
+        public String getQuery() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getInsert() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getDelete() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getUpdate() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+    }
 
     
     

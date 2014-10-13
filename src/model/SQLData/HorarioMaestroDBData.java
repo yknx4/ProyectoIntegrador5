@@ -27,7 +27,7 @@ import model.database.DatabaseInstance;
  *
  * @author Yknx
  */
-public class HorarioMaestroDBData {
+public class HorarioMaestroDBData implements DBData<List<HorarioMaestro>> {
 
     public HorarioMaestroDBData(int maestro) throws SQLException {
         this.db = DatabaseInstance.getInstance();
@@ -39,7 +39,8 @@ public class HorarioMaestroDBData {
     final ResultSet RawData;
     String sqlQuery;
 
-    public List<List<HorarioMaestro>> getHorario() {
+    @Override
+    public List<List<HorarioMaestro>> getData() {
         List<List<HorarioMaestro>> result = new ArrayList<>();
         List<HorarioMaestro> current;
         HorarioMaestro m,tmp;
