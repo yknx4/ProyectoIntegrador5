@@ -25,13 +25,14 @@ public class HorarioMaestro {
     public String toString() {
         return "HorarioMaestro{" + "dia=" + dia + ", horario=" + horario + ", materia=" + materia + ", salon=" + salon + ", empty=" + empty + '}';
     }
-     public HorarioMaestro(int dia, int horario, String materia, String salon, boolean empty, String hora) {
+     public HorarioMaestro(int dia, int horario, String materia, String salon, boolean empty, String hora,String grupo) {
         this.dia = dia;
         this.horario = horario;
         this.materia = materia;
         this.salon = salon;
         this.empty = empty;
         this.hora = hora;
+        this.grupo = grupo;
         
     }
 
@@ -41,6 +42,15 @@ public class HorarioMaestro {
     private String salon;
     private boolean empty;
     private String hora;
+    private String grupo;
+
+    public String getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
+    }
     
 
     public int getDia() {

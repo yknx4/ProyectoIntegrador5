@@ -86,12 +86,10 @@ private final static Logger LOGGER = Logger.getLogger(HorariosParse.class.getNam
     
     public Horario get(int t){
         int n = t;
-        //n--;
-        if (n>=horarios.size()){
-            n %= (horarios.size()-1);
-        }
-        Horario r =horarios.get(n-1);
-        System.out.println("ID: "+t+" Info:"+r);
+        n--;
+        if(n<0) n+=horarios.size();
+        Horario r =horarios.get(n);
+        System.out.println("ID: "+t+"->"+n+" Info:"+r);
         return r;
     }
     

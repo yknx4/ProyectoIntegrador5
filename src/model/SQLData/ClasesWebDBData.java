@@ -8,6 +8,7 @@ package model.SQLData;
 
 import controller.ClasesWebController;
 import controller.SQLData.SQLHelper;
+import helper.Utility;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,6 +51,15 @@ public class ClasesWebDBData implements DBData<ClasesWeb>{
     boolean allHorarios=false;
     boolean allDias= false;
     private boolean limit = false;
+    boolean thisWeek;
+
+    public boolean isThisWeek() {
+        return thisWeek;
+    }
+
+    public void setThisWeek(boolean thisWeek) {
+        this.thisWeek = thisWeek;
+    }
 
     public void setAllHorarios(boolean allHorarios) {
         horario = Integer.MAX_VALUE;
@@ -57,7 +67,10 @@ public class ClasesWebDBData implements DBData<ClasesWeb>{
     }
 
     public void setAllDias(boolean allDias) {
-        dia = Integer.MAX_VALUE;
+        if(allDias)dia = Integer.MAX_VALUE;
+        else{
+            dia = Utility.getDate();
+        }
         this.allDias = allDias;
     }
 
@@ -78,10 +91,15 @@ public class ClasesWebDBData implements DBData<ClasesWeb>{
         
     }
 
-    
+    private String getTableName(){
+        if(isThisWeek()){
+            return DataContract.ClasesWebEntry.TABLE_NAME+2;
+        }
+        else return DataContract.ClasesWebEntry.TABLE_NAME;
+    }
     private void init() {
         try {
-            sqlQuery = controller.SQLData.SQLHelper.generateSelect(DataContract.ClasesWebEntry.TABLE_NAME, null);
+            sqlQuery = controller.SQLData.SQLHelper.generateSelect(getTableName(), null);
             ArrayList<String> columns = new ArrayList<>();
             if(!allHorarios) columns.add(ClasesWebEntry.COLUMN_HORARIO);
             if(!allDias)  columns.add(ClasesWebEntry.COLUMN_DIA);
@@ -92,9 +110,9 @@ public class ClasesWebDBData implements DBData<ClasesWeb>{
             
             String[] use = columns.toArray(new String[columns.size()]);
             if(columns.size()>0)sqlQuery += SQLHelper.generateWhere(use, SQLHelper.WHERE_TYPE_EQUAL);
-            if(limit)sqlQuery+=" LIMIT 100";
+            if(limit)sqlQuery+=" LIMIT 288";
             PreparedStatement query = db.prepareStatement(sqlQuery);
-            System.out.println(query.toString());
+            System.out.println("ClasesDBbalba "+query.toString());
             
             if(!allHorarios)query.setInt(columns.indexOf(ClasesWebEntry.COLUMN_HORARIO)+1, horario);
             if(!allDias)query.setInt(columns.indexOf(ClasesWebEntry.COLUMN_DIA)+1, dia);

@@ -60,7 +60,7 @@ public class HorarioMaestroDBData implements DBData<List<HorarioMaestro>> {
                         }
                     }
                     if(m==null){
-                        m = new HorarioMaestro(j, i, "", "", true,"");
+                        m = new HorarioMaestro(j, i, "", "", true,"","");
                     }
                     current.add(m);
                 }

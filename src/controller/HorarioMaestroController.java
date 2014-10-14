@@ -23,12 +23,14 @@ public class HorarioMaestroController {
         String materia;
         String salon;
         String hora;
+        String grupo;
         dia = data.getInt(DataContract.HorarioMaestroEntry.COLUMN_DIA);
         horario = data.getInt(DataContract.HorarioMaestroEntry.COLUMN_HORARIO);
         materia = data.getString(DataContract.HorarioMaestroEntry.COLUMN_MATERIA);
+        grupo = data.getString(DataContract.HorarioMaestroEntry.COLUMN_GRUPO);
         salon = data.getString(DataContract.HorarioMaestroEntry.COLUMN_SALON);
         hora = data.getString(DataContract.HorarioMaestroEntry.COLUMN_HORA);
-        HorarioMaestro mMaestro = new HorarioMaestro(dia, horario, materia, salon, false,hora);
+        HorarioMaestro mMaestro = new HorarioMaestro(dia, horario, materia, salon, false,hora,grupo);
         return mMaestro;
     }
     

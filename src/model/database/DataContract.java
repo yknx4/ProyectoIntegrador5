@@ -356,6 +356,7 @@ public class DataContract {
         public static final String COLUMN_DIA = "dia";
         public static final String COLUMN_HORARIO = "horario";
         public static final String COLUMN_HORA = "hora";
+        public static final String COLUMN_GRUPO = "grupo";
 
         @Override
         public String getQuery() {

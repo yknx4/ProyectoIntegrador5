@@ -27,7 +27,8 @@ public class AssistSimulator {
      * @param args the command line arguments
      */
     static SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
     static Connection db;
 
     public static void main(String[] args) throws SQLException, ParseException {
