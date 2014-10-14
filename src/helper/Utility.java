@@ -4,12 +4,14 @@ import controller.SQLData.SQLHelper;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import model.SQLData.Join;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.database.DatabaseInstance;
 
 
 
@@ -66,10 +68,10 @@ public class Utility {
         }
         return finalhash;
     }
-    //public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
-//                            + "user=root&password=konami1994";
-    public static final String DB_STRING ="jdbc:mysql://localhost:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
+    public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
                             + "user=root&password=konami1994";
+//    public static final String DB_STRING ="jdbc:mysql://localhost:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
+//                            + "user=root&password=konami1994";
     public static String removeLast(final String input){
         return input.substring(0,input.length()-1);
     }
@@ -130,6 +132,15 @@ public class Utility {
         }
         System.out.println("Dia segun sho: " + rec);
         return rec;
+    }
+
+    public static void forceAusent() {
+        String query = "call FORCE_AUSENT();";
+        try {
+            DatabaseInstance.getInstance().createStatement().execute(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Utility.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

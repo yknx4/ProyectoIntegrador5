@@ -92,8 +92,10 @@ public class ClasesWebDBData implements DBData<ClasesWeb>{
             
             String[] use = columns.toArray(new String[columns.size()]);
             if(columns.size()>0)sqlQuery += SQLHelper.generateWhere(use, SQLHelper.WHERE_TYPE_EQUAL);
+            if(limit)sqlQuery+=" LIMIT 100";
             PreparedStatement query = db.prepareStatement(sqlQuery);
             System.out.println(query.toString());
+            
             if(!allHorarios)query.setInt(columns.indexOf(ClasesWebEntry.COLUMN_HORARIO)+1, horario);
             if(!allDias)query.setInt(columns.indexOf(ClasesWebEntry.COLUMN_DIA)+1, dia);
             if(maestro!=-1)query.setInt(columns.indexOf(ClasesWebEntry.COLUMN_ID_USUARIO)+1, maestro);
