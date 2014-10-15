@@ -61,7 +61,7 @@ public class AssistSimulator {
                 usuario = clases.getInt(2);
                 clase = clases.getInt(1);
                 Date created = pcal.getTime();
-                fecha = sdf.format(now);
+                fecha = Utility.MySQLDateFormatter.format(now);
                 
                 modified = sdf.format(created);
                 if(Math.random()<.05){

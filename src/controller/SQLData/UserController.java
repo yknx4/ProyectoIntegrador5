@@ -40,6 +40,13 @@ public class UserController {
         query+=SQLHelper.generateWhere(whereColumns, SQLHelper.WHERE_TYPE_EQUAL);
         return query;
     }
+    private static String userIdQuery(String[] selectColumns){
+        String query ="";
+        query += SQLHelper.generateSelect(DataContract.UsuarioEntry.TABLE_NAME, selectColumns);
+        final String[] whereColumns = {DataContract.UsuarioEntry._ID};
+        query+=SQLHelper.generateWhere(whereColumns, SQLHelper.WHERE_TYPE_EQUAL);
+        return query;
+    }
     
     public static User getUser(ResultSet raw) throws Exception{
         Exception invalidError = new java.lang.IllegalArgumentException("Input ResultSet is malformed.");
@@ -71,6 +78,34 @@ public class UserController {
             throw invalidError;
         }
     }
+    
+    static public User getUser(int id) throws Exception{
+        User resultado = null;
+        try {
+            db = DatabaseInstance.getInstance();
+            ResultSet result;
+            PreparedStatement query = db.prepareStatement(userIdQuery(null));
+            query.setInt(1, id);
+            System.out.println(query);
+            
+            result = query.executeQuery();
+            if(!result.first()){
+                result = null;
+                LOGGER.log(Level.WARNING, "Couldn''t get data for user. {0}", id);
+            }else{
+                LOGGER.log(Level.INFO, "User data is: {0}", result.toString());
+            }
+            resultado = getUser(result);
+            
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE,"Cannot get user data. Full error: "+ex.toString(),ex);
+        }
+            return resultado;
+            
+         
+        
+    }
+    
     
     static public ResultSet getUser(String username, String password) throws Exception{
         ResultSet result=null;

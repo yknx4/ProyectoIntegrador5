@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +53,17 @@ public class ClasesWebDBData implements DBData<ClasesWeb>{
     boolean allDias= false;
     private boolean limit = false;
     boolean thisWeek;
+    boolean dateSpecific;
+    private Date dateQuery = null;
+
+    public boolean isDateSpecific() {
+        if(dateQuery == null) return false;
+        return dateSpecific;
+    }
+
+    public void setDateSpecific(boolean dateSpecific) {
+        this.dateSpecific = dateSpecific;
+    }
 
     public boolean isThisWeek() {
         return thisWeek;
@@ -104,19 +116,25 @@ public class ClasesWebDBData implements DBData<ClasesWeb>{
             if(!allHorarios) columns.add(ClasesWebEntry.COLUMN_HORARIO);
             if(!allDias)  columns.add(ClasesWebEntry.COLUMN_DIA);
             if(maestro!=-1)  columns.add(ClasesWebEntry.COLUMN_ID_USUARIO);
+            String dateParam = null;
+            if(isDateSpecific()){
+                dateParam = "DATE("+ClasesWebEntry.COLUMN_FECHA_ASISTIO+")";
+                columns.add(dateParam);
+            }
             System.out.println("Horarios: "+allHorarios);
             System.out.println("Dias: "+allDias);
             System.out.println("Maestro: "+maestro);
             
             String[] use = columns.toArray(new String[columns.size()]);
             if(columns.size()>0)sqlQuery += SQLHelper.generateWhere(use, SQLHelper.WHERE_TYPE_EQUAL);
-            if(limit)sqlQuery+=" LIMIT 288";
+            if(limit)sqlQuery+=" LIMIT 300";
             PreparedStatement query = db.prepareStatement(sqlQuery);
             System.out.println("ClasesDBbalba "+query.toString());
             
             if(!allHorarios)query.setInt(columns.indexOf(ClasesWebEntry.COLUMN_HORARIO)+1, horario);
             if(!allDias)query.setInt(columns.indexOf(ClasesWebEntry.COLUMN_DIA)+1, dia);
             if(maestro!=-1)query.setInt(columns.indexOf(ClasesWebEntry.COLUMN_ID_USUARIO)+1, maestro);
+            if(isDateSpecific()) query.setString(columns.indexOf(dateParam)+1, Utility.MySQLDateFormatter.format(dateQuery));
             RawData = query.executeQuery();
             System.out.println(query.toString());
         } catch (SQLException ex) {
@@ -144,6 +162,14 @@ public class ClasesWebDBData implements DBData<ClasesWeb>{
 
     public void setLimit(boolean limit) {
         this.limit = limit;
+    }
+
+    public Date getDateQuery() {
+        return dateQuery;
+    }
+
+    public void setDateQuery(Date dateQuery) {
+        this.dateQuery = dateQuery;
     }
     
 }

@@ -34,7 +34,10 @@ public class Utility {
      public static int fixedDay = 4;
     public static int [] fixedHorarios = {14,15};
     private final static Logger LOGGER = Logger.getLogger(Utility.class.getName());
-    public static SimpleDateFormat SQLDateFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    public static SimpleDateFormat MySQLDateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat MySQLTimeFormatter = new SimpleDateFormat("HH:mm:ss");
+    public static SimpleDateFormat MySQLDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+    public static SimpleDateFormat PrettyDateFormatter = new SimpleDateFormat();
     public static String getFormalDate(int year, int month, int day){
         
         Calendar c = Calendar.getInstance();

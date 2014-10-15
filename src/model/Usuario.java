@@ -73,9 +73,9 @@ public class Usuario {
         Usuario nuevo = new Usuario();
             nuevo.id = rawData.getLong(DataContract.UsuarioEntry._ID);
             nuevo.activo = rawData.getInt(DataContract.UsuarioEntry.COLUMN_ACTIVO);
-            nuevo.created = Utility.SQLDateFormatter.parse(rawData.getString(DataContract.UsuarioEntry.COLUMN_TIMESTAMP_CREATED));
+            nuevo.created = Utility.MySQLDateTimeFormatter.parse(rawData.getString(DataContract.UsuarioEntry.COLUMN_TIMESTAMP_CREATED));
             nuevo.email = rawData.getString(DataContract.UsuarioEntry.COLUMN_EMAIL);
-            nuevo.modified = Utility.SQLDateFormatter.parse(rawData.getString(DataContract.UsuarioEntry.COLUMN_TIMESTAMP_MODIFIED));
+            nuevo.modified = Utility.MySQLDateTimeFormatter.parse(rawData.getString(DataContract.UsuarioEntry.COLUMN_TIMESTAMP_MODIFIED));
             nuevo.nombre = rawData.getString(DataContract.UsuarioEntry.COLUMN_NOMBRE);
             nuevo.passhash = rawData.getString(DataContract.UsuarioEntry.COLUMN_PASSWORD_HASH);
             nuevo.permission = rawData.getInt(DataContract.UsuarioEntry.COLUMN_PERMISSIONS);
