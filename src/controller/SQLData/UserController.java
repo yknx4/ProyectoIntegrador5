@@ -12,6 +12,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
@@ -47,10 +50,18 @@ public class UserController {
         query+=SQLHelper.generateWhere(whereColumns, SQLHelper.WHERE_TYPE_EQUAL);
         return query;
     }
+    private static String userQuery(String[] selectColumns){
+        String query ="";
+        query += SQLHelper.generateSelect(DataContract.UsuarioEntry.TABLE_NAME, selectColumns);
+        return query;
+    }
     
     public static User getUser(ResultSet raw) throws Exception{
+        return getUser(raw, false);
+    }
+    public static User getUser(ResultSet raw, boolean onlyOne) throws Exception{
         Exception invalidError = new java.lang.IllegalArgumentException("Input ResultSet is malformed.");
-        if(!raw.first()){
+        if(onlyOne && !raw.first()){
             invalidError.initCause(new Exception("Empty Dataset"));
             throw invalidError;
         }
@@ -59,7 +70,7 @@ public class UserController {
             
             n.setId(raw.getInt(DataContract.UsuarioEntry._ID));
             n.setPermission(raw.getInt(DataContract.UsuarioEntry.COLUMN_PERMISSIONS));
-            n.setNombre(raw.getString(DataContract.UsuarioEntry.COLUMN_NOMBRE));
+            n.setName(raw.getString(DataContract.UsuarioEntry.COLUMN_NOMBRE));
             n.setPasshash(raw.getString(DataContract.UsuarioEntry.COLUMN_PASSWORD_HASH));
             n.setCreated(raw.getString(DataContract.UsuarioEntry.COLUMN_TIMESTAMP_CREATED));
             n.setModified(raw.getString(DataContract.UsuarioEntry.COLUMN_TIMESTAMP_MODIFIED));
@@ -105,7 +116,30 @@ public class UserController {
          
         
     }
-    
+    static public List<User> getUsers(){
+        List<User> resultado = new ArrayList<>();
+        try {
+            db = DatabaseInstance.getInstance();
+            ResultSet result;
+            
+            System.out.println("Antes de ejecutar");
+            result = db.createStatement().executeQuery(userQuery(null));
+            System.out.println("Despues de ejecutar");
+            
+            while(result.next()){
+            
+                User mUser = getUser(result);
+                resultado.add(mUser);
+                System.out.println("Usuario: "+mUser.toString());
+            }
+            
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE,"Cannot get user data. Full error: "+ex.toString(),ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return resultado;
+    }
     
     static public ResultSet getUser(String username, String password) throws Exception{
         ResultSet result=null;
