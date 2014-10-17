@@ -6,11 +6,9 @@
 package model.SQLData;
 
 import java.sql.PreparedStatement;
-import com.mysql.jdbc.Util;
 import controller.HorarioMaestroController;
 import controller.SQLData.Parser.HorariosParse;
 import controller.SQLData.SQLHelper;
-import helper.Utility;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

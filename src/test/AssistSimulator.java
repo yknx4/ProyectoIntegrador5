@@ -5,7 +5,6 @@
  */
 package test;
 
-import com.mysql.jdbc.Util;
 import helper.Utility;
 import java.sql.Connection;
 import java.sql.ResultSet;

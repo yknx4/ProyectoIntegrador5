@@ -1,7 +1,6 @@
 package helper;
 
 
-import com.mysql.jdbc.StringUtils;
 import controller.SQLData.SQLHelper;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
