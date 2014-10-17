@@ -51,8 +51,11 @@ public class UserController {
         return query;
     }
     private static String userQuery(String[] selectColumns){
+        return userQuery(DataContract.UsuarioEntry.TABLE_NAME,selectColumns);
+    }
+    private static String userQuery(String tableName,String[] selectColumns){
         String query ="";
-        query += SQLHelper.generateSelect(DataContract.UsuarioEntry.TABLE_NAME, selectColumns);
+        query += SQLHelper.generateSelect(tableName, selectColumns);
         return query;
     }
     
@@ -116,14 +119,27 @@ public class UserController {
          
         
     }
+    
     static public List<User> getUsers(){
+        //where id not in (SELECT id_maestro FROM jfperez.clases where (dia =0 and id_Horarios = 1))
+        return getUsers(""); 
+        
+        
+    }
+    static public List<User> getUsers(String extra){
+        return getUsers(null, extra);
+    }
+    static public List<User> getUsers(String tableName, String extra){
         List<User> resultado = new ArrayList<>();
         try {
             db = DatabaseInstance.getInstance();
             ResultSet result;
             
             System.out.println("Antes de ejecutar");
-            result = db.createStatement().executeQuery(userQuery(null));
+            String query="";
+            if(tableName!=null)query=userQuery(tableName,null)+" "+extra;
+            else query=userQuery(null)+" "+extra;
+            result = db.createStatement().executeQuery(query);
             System.out.println("Despues de ejecutar");
             
             while(result.next()){

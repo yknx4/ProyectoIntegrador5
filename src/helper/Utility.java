@@ -1,16 +1,18 @@
 package helper;
 
+
+import com.mysql.jdbc.StringUtils;
 import controller.SQLData.SQLHelper;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import model.SQLData.Join;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.SQLData.Join;
 import model.database.DatabaseInstance;
 
 
@@ -71,6 +73,12 @@ public class Utility {
         }
         return finalhash;
     }
+    public static String justNumbers(String input){
+        return input.replaceAll("[^\\d.]", "");
+        
+    }
+    
+    
 //    public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
 //                            + "user=root&password=konami1994";
     public static final String DB_STRING ="jdbc:mysql://localhost:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"

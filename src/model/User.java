@@ -125,6 +125,15 @@ public class User {
         
         return  (Integer[]) perns.toArray(new Integer[perns.size()]);
     }
+    public Integer[] getPermissions(){
+        ArrayList<Integer> perns = new ArrayList<>();
+        if(hasPermission(permission, ADMINISTRATIVE_PERSONNEL)) perns.add(ADMINISTRATIVE_PERSONNEL);
+        if(hasPermission(permission, PROFESSOR)) perns.add(PROFESSOR);
+        if(hasPermission(permission, SYSTEM_ADMIN)) perns.add(SYSTEM_ADMIN);
+        if(hasPermission(permission, EXTRA_FLAG)) perns.add(EXTRA_FLAG);
+        
+        return  (Integer[]) perns.toArray(new Integer[perns.size()]);
+    }
     public static String permissionName(int Permission){
         switch(Permission){
             case ADMINISTRATIVE_PERSONNEL:

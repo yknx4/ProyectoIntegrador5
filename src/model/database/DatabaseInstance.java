@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 public class DatabaseInstance {
     private final static Logger LOGGER = Logger.getLogger(DatabaseInstance.class.getName());
     private final Connection instance;
+    private final Connection transactionInstance;
     private static DatabaseInstance holder;
 
     public DatabaseInstance() throws SQLException, ClassNotFoundException {
@@ -28,12 +29,23 @@ public class DatabaseInstance {
 
                 // setup the connection with the DB.
                 instance      = DriverManager.getConnection(Utility.DB_STRING);
+                transactionInstance      = DriverManager.getConnection(Utility.DB_STRING);
+                transactionInstance.setAutoCommit(false);
     }
     
     public static Connection getInstance() throws SQLException{
         try {
             if(holder == null) holder = new DatabaseInstance();
             return holder.instance;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseInstance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      throw new SQLException("SQL Connection cannot be initiated.");
+    }
+    public static Connection getTransactedInstance() throws SQLException{
+        try {
+            if(holder == null) holder = new DatabaseInstance();
+            return holder.transactionInstance;
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DatabaseInstance.class.getName()).log(Level.SEVERE, null, ex);
         }

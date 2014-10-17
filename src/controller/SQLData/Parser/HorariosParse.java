@@ -50,7 +50,7 @@ private final static Logger LOGGER = Logger.getLogger(HorariosParse.class.getNam
         init();
         
     }
-    ArrayList<Horario> horarios = new ArrayList<>();
+    private ArrayList<Horario> horarios = new ArrayList<>();
     ResultSet rawData;
     
     public String getHora(int t){
@@ -179,6 +179,10 @@ private final static Logger LOGGER = Logger.getLogger(HorariosParse.class.getNam
         //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(getFullDate(aInt));
+    }
+
+    public ArrayList<Horario> getHorarios() {
+        return horarios;
     }
     
     

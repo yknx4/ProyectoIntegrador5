@@ -149,6 +149,7 @@ public class DataContract {
     public static class UsuarioEntry implements BaseColumns
     {
         public static final String TABLE_NAME = "usuarios";
+        public static final String PROFESORES_TABLE_NAME = "profesores";
         public static final String COLUMN_NOMBRE = "nombre";
         public static final String COLUMN_PASSWORD_HASH = "passhash";
         public static final String COLUMN_PERMISSIONS = "permission";
@@ -237,6 +238,33 @@ public class DataContract {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
+    public static class MateriaEntry implements BaseColumns {
+        public static final String TABLE_NAME = "materias";
+        public static final String COLUMN_NOMBRE  = "nombre";
+        
+        
+        
+
+        @Override
+        public String getQuery() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getInsert() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getDelete() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getUpdate() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
     public static class SalonEntry implements BaseColumns {
         public static final String TABLE_NAME = "Salones";
         public static final String COLUMN_NOMBRE = "nombre";
@@ -265,6 +293,7 @@ public class DataContract {
         public static final String TABLE_NAME = "Grupos";
         public static final String COLUMN_SEMESTRE  = "semestre";
         public static final String COLUMN_GRUPO  = "grupo";
+        public static final String HELPER_TABLE_NAME = "grupohelpview";
 
         @Override
         public String getQuery() {
