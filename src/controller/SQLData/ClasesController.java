@@ -39,7 +39,7 @@ public class ClasesController {
     public static boolean insert(Clase input) throws SQLException{
         boolean result;
         
-            db = DatabaseInstance.getInstance();
+            db = DatabaseInstance.getInstance(); 
             Statement query = db.createStatement();
             String queryString = input.print();
             result= query.executeUpdate(queryString) != 0;

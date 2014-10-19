@@ -6,7 +6,13 @@
 
 package model;
 
+import helper.Utility;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+import model.database.DataContract;
 
 /**
  *
@@ -41,6 +47,16 @@ public class User {
 
     public void setPasshash(String passhash) {
         this.passhash = passhash;
+    }
+    public void setPasshash(String passhash, boolean hash) {
+        if(hash){
+            String hashe = (new HexBinaryAdapter()).marshal(Utility.getHash(Utility.PASSWORD_SALT+passhash));
+            setPasshash(hashe);
+        }
+        else{
+            setPasshash(passhash);
+        }
+       
     }
 
     public int getPermission() {
@@ -147,6 +163,22 @@ public class User {
                             default:
                 return "PERMISO INVALIDO";
         }
+    }
+    
+    private String getInsertString(){
+        String base = "INSERT INTO "+DataContract.UsuarioEntry.TABLE_NAME+" (`nombre`,`passhash`,`permission`,`email`,`activo`) VALUES (?,?,?,?,?)";
+        
+        return base;
+    }
+    public PreparedStatement getInsertStatement(Connection db) throws SQLException{
+        PreparedStatement result = db.prepareStatement(getInsertString());
+        result.setString(1, name);
+        result.setString(2, passhash);
+        result.setInt(3, permission);
+        result.setString(4, email);
+        result.setInt(5, 1);
+        return result;
+        
     }
     
 }

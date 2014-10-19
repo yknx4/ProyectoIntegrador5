@@ -183,6 +183,17 @@ public class UserController {
             return resultado;
     }
     
+    public static boolean insertUser(User toInsert) throws SQLException{
+         boolean result;
+        
+            db = DatabaseInstance.getInstance();
+            PreparedStatement st = toInsert.getInsertStatement(db);
+            result= st.executeUpdate() != 0;
+        
+        
+        return result;
+    }
+    
     static public ResultSet getUser(String username, String password) throws Exception{
         ResultSet result=null;
         try {
