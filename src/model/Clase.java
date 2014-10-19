@@ -106,10 +106,10 @@ public class Clase {
     }
     public String selectValues(){
         String base = "WHERE id_maestro = "+maestro+" AND"+
-                "dia = "+dia+" AND"+
-                "id_Salones = "+salon+" AND"+
-                "id_Horarios = "+horario+" AND"+
-                "id_Grupos = "+grupo+" AND"+
+                "dia = "+dia+" AND "+
+                "id_Salones = "+salon+" AND "+
+                "id_Horarios = "+horario+" AND "+
+                "id_Grupos = "+grupo+" AND "+
                 "id_Materias = "+materia;  
         System.out.println(base);
         return base;

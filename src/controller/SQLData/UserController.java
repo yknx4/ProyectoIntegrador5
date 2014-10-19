@@ -93,6 +93,32 @@ public class UserController {
         }
     }
     
+    static public boolean validateEmail(String email){
+        if(email == null || email.isEmpty()) return false;
+        boolean resultado = false;
+        try {
+            db = DatabaseInstance.getInstance();
+            ResultSet result;
+            String squery = SQLHelper.generateSelect(DataContract.UsuarioEntry.TABLE_NAME, null);
+            squery += SQLHelper.generateWhere(DataContract.UsuarioEntry.COLUMN_EMAIL, SQLHelper.WHERE_TYPE_EQUAL);
+            PreparedStatement query = db.prepareStatement(squery);
+            query.setString(1, email.toLowerCase());
+            System.out.println(query);
+            result = query.executeQuery();
+            if(!result.first()){
+                resultado = true;
+                LOGGER.log(Level.WARNING, "Email no esta usado. {0}", resultado);
+            }else{
+                LOGGER.log(Level.WARNING, "Valid: {0}", result.toString());
+            }
+            
+          
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE,"Cannot get user data. Full error: "+ex.toString(),ex);
+        }
+            return resultado;
+    }
+    
     static public User getUser(int id) throws Exception{
         User resultado = null;
         try {
