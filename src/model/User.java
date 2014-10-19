@@ -116,9 +116,9 @@ public class User {
     String email;
     String picture;
     
-    public static final int ADMINISTRATIVE_PERSONNEL = 0b00000001;
-    public static final int PROFESSOR = 0b00000010;
-    public static final int SYSTEM_ADMIN = 0b00000100;
+    public static final int ADMINISTRATIVE_PERSONNEL = 0b00000001; /// 1
+    public static final int PROFESSOR = 0b00000010; //// 2
+    public static final int SYSTEM_ADMIN = 0b00000100; ///  4
     public static final int EXTRA_FLAG = 0b00001000;
     public static final int INVALID_PERMISSION = -1;
     public static final long INVALID = -1;
