@@ -222,4 +222,17 @@ public class UserController {
          
         
     }
+
+    public static boolean updateUser(User toI) throws SQLException {
+         boolean result;
+        
+            db = DatabaseInstance.getInstance();
+            PreparedStatement st = toI.getUpdateStatement(db);
+            result= st.executeUpdate() != 0;
+        
+        
+        return result;
+    }
+
+    
 }

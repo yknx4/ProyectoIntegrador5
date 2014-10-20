@@ -33,9 +33,25 @@ public class AsistenciaController {
     private static AsistenciaController _instance;
     private static MessageDigest hasher ;
     private static final String salt = "ho";
+
+   
     private final Connection db;
     private int dia;
     private int horario;
+    public static String justifySql = "update asistencias set justifico = 1 where id_Clases = ? AND DATE(fecha) = Date(?)";
+    
+    public static boolean justificarAsistencia(int id,String fecha) throws SQLException{
+        boolean result;
+
+            Connection db = DatabaseInstance.getInstance();
+            PreparedStatement st = db.prepareStatement(justifySql);
+            st.setInt(1, id);
+            st.setString(2, fecha);
+            result= st.executeUpdate() != 0;
+        
+        
+        return result;
+    }
     
     private static String userPassQuery(){
         String query ="";

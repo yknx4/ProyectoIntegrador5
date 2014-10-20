@@ -170,6 +170,11 @@ public class User {
         
         return base;
     }
+    private String getUpdateString(){
+        String base = "UPDATE "+DataContract.UsuarioEntry.TABLE_NAME+" SET nombre = ?,  permission = ?, email = ?, activo = ? WHERE id = ?";
+        
+        return base;
+    }
     public PreparedStatement getInsertStatement(Connection db) throws SQLException{
         PreparedStatement result = db.prepareStatement(getInsertString());
         result.setString(1, name);
@@ -180,5 +185,14 @@ public class User {
         return result;
         
     }
-    
+    public PreparedStatement getUpdateStatement(Connection db) throws SQLException{
+        PreparedStatement result = db.prepareStatement(getUpdateString());
+        result.setString(1, name);
+        result.setInt(2, permission);
+        result.setString(3, email);
+        result.setInt(4, activo?1:0);
+        result.setInt(5, id);
+        return result;
+        
+    }
 }

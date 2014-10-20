@@ -6,6 +6,12 @@
 
 package model;
 
+import helper.Utility;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Yknx
@@ -45,9 +51,21 @@ public class ClasesWeb {
     public void setHora(String hora) {
         this.hora = hora;
     }
+    public boolean isAsistioju(){
+        return asistio || justifico;
+    }
 
     public String getGrupo() {
         return grupo;
+    }
+    public String getFechafinal(){
+        try {
+            Date d = Utility.MySQLDateTimeFormatter.parse(fechaAsistio);
+            return Utility.MySQLDateFormatter.format(d);
+        } catch (ParseException ex) {
+            Logger.getLogger(ClasesWeb.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
     public void setGrupo(String grupo) {
