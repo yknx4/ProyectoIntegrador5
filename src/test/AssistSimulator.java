@@ -61,18 +61,19 @@ public class AssistSimulator {
                 clase = clases.getInt(1);
                 Date created = pcal.getTime();
                 fecha = Utility.MySQLDateFormatter.format(now);
+                created.setMinutes(created.getMinutes()+(int)(Math.random()*10));
                 
-                modified = sdf.format(created);
                 if(Math.random()<.05){
                     asistio = 0;
                     if(Math.random()<.33){
                         justifico = 1;
                     }
                 }else{
-                    if(Math.random()<.05){
+                    if(Math.random()<.1){
                         created.setMinutes(created.getMinutes()+21);
                     }
                 }
+                modified = sdf.format(created);
                 createds = sdf.format(created);
                 String sql = "replace into asistencias(id_Clases, id_usuarios, fecha, created, modified, asistio, justifico) values("+clase+","+usuario+",'"+fecha+"','"+createds+"','"+modified+"',"+asistio+","+justifico+")";
                 
