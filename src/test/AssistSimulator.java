@@ -35,7 +35,7 @@ public class AssistSimulator {
         String clasesQuery = "SELECT C.id, id_maestro,H.inicio as hora FROM jfperez.clases C INNER JOIN horarios H on H.id = C.id_Horarios where C.dia = ";
         ResultSet clases;
         GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
-        cal.set(2014, 8, 1, 1, 1, 1);
+        cal.set(2014, 7, 11, 1, 1, 1);
         while (cal.getTime().before(GregorianCalendar.getInstance().getTime())) {
             Calendar pcal = Calendar.getInstance();
             Date now = cal.getTime();
@@ -65,7 +65,7 @@ public class AssistSimulator {
                 
                 if(Math.random()<.05){
                     asistio = 0;
-                    if(Math.random()<.33){
+                    if(Math.random()<.5){
                         justifico = 1;
                     }
                 }else{
