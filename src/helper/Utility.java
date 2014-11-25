@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.SQLData.Join;
 import model.database.DatabaseInstance;
 
@@ -39,6 +40,11 @@ public class Utility {
     public static SimpleDateFormat MySQLTimeFormatter = new SimpleDateFormat("HH:mm:ss");
     public static SimpleDateFormat MySQLDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
     public static SimpleDateFormat PrettyDateFormatter = new SimpleDateFormat();
+    public static int REFRESH_TIME = 120000;
+    public static void infoBox(String infoMessage, String titleBar)
+    {
+        JOptionPane.showMessageDialog(null, infoMessage, "" + titleBar, JOptionPane.INFORMATION_MESSAGE);
+    }
     public static String getFormalDate(int year, int month, int day){
         
         Calendar c = Calendar.getInstance();
@@ -79,9 +85,9 @@ public class Utility {
     
     
 //    public static final String DB_STRING ="jdbc:mysql://yknx4.b0ne.com:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
-//                            + "user=root&password=konami1994";
+ //                           + "user=root&password=konami1994";
     public static final String DB_STRING ="jdbc:mysql://localhost:3306/jfperez?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&"
-                            + "user=root&password=konami1994";
+                            + "user=root&password=jorgejorge";
     public static String removeLast(final String input){
         return input.substring(0,input.length()-1);
     }

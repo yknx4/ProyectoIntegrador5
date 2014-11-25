@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package view.ui;
 
 import helper.Utility;
@@ -14,6 +13,8 @@ import model.SQLData.ClasesTableModel;
 import controller.SQLData.Parser.HorariosParse;
 import controller.SQLData.Parser.UsuariosParser;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -28,6 +29,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.table.TableModel;
 
@@ -36,11 +38,11 @@ import javax.swing.table.TableModel;
  * @author Yknx
  */
 public class AsistenciasForm extends javax.swing.JFrame {
+
     private final static Logger LOGGER = Logger.getLogger(AsistenciasForm.class.getName());
 
-    public static boolean isDebug=Utility.isDebug;
+    public static boolean isDebug = Utility.isDebug;
 
-   
     /**
      * Creates new form AsistenciasForm
      */
@@ -48,13 +50,12 @@ public class AsistenciasForm extends javax.swing.JFrame {
         initComponents();
     }
 
-    private void setProfesorImagen(ImageIcon icon){
-       
-        
-       imageLabel.setIcon(new ImageIcon(icon.getImage().getScaledInstance(90, 112,Image.SCALE_SMOOTH)));
-                
+    private void setProfesorImagen(ImageIcon icon) {
+
+        imageLabel.setIcon(new ImageIcon(icon.getImage().getScaledInstance(90, 112, Image.SCALE_SMOOTH)));
+
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -385,15 +386,13 @@ public class AsistenciasForm extends javax.swing.JFrame {
     }//GEN-LAST:event_UsuarioFieldActionPerformed
 
     private void contrasenaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrasenaFieldActionPerformed
-        
-        
+
         try {
             // TODO add your handling code here:
-            
-            
+
             //String usuario = "alc.ina@telematica.mx";
             //String password = "109514";
-            if(UsuarioField.getText().isEmpty()){
+            if (UsuarioField.getText().isEmpty()) {
                 UsuarioField.requestFocus();
                 infoLabel.setText("Favor de ingresar un usuario.");
                 return;
@@ -402,18 +401,18 @@ public class AsistenciasForm extends javax.swing.JFrame {
             usuario = usuario.replaceAll("@telematica.mx", "");
             usuario = usuario.trim();
             usuario = usuario.concat("@telematica.mx");
-            if(contrasenaField.getText().isEmpty()){
+            if (contrasenaField.getText().isEmpty()) {
                 contrasenaField.requestFocus();
                 infoLabel.setText("Favor de ingresar la contraseña.");
                 return;
             }
             String password = contrasenaField.getText();
-            
-            mAsistenciaController = AsistenciaController.getInstance(dia,horarios[0]);
+
+            mAsistenciaController = AsistenciaController.getInstance(dia, horarios[0]);
             //ResultSet maestro = mAsistenciaController.setAsistencia(usuario, password,1,13);
             mAsistenciaController.setAsistencia(usuario, password);
             infoLabel.setText(mAsistenciaController.getMessage());
-
+            Utility.infoBox(mAsistenciaController.getMessage(), "Asistencia");
             setProfessorData(mAsistenciaController.getRawData());
             resetUserData();
             resetTables();
@@ -424,8 +423,8 @@ public class AsistenciasForm extends javax.swing.JFrame {
             Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
             infoLabel.setText(mAsistenciaController.getMessage());
         }
-        
-        
+
+
     }//GEN-LAST:event_contrasenaFieldActionPerformed
 
     /**
@@ -434,14 +433,14 @@ public class AsistenciasForm extends javax.swing.JFrame {
     static AsistenciasForm form;
     private AsistenciasFiller mAsistenciasFiller;
     private UsuariosParser mMaestrosParser;
+
     public static void main(String args[]) {
         /*Handler systemOutHandler = new StreamHandler(System.out, new SimpleFormatter()); 
-        systemOutHandler.setLevel(Level.FINEST); 
+         systemOutHandler.setLevel(Level.FINEST); 
          Logger rootLogger = Logger.getLogger(""); 
-        rootLogger.addHandler(systemOutHandler); 
-        rootLogger.setLevel(Level.FINEST);*/
-        
-                
+         rootLogger.addHandler(systemOutHandler); 
+         rootLogger.setLevel(Level.FINEST);*/
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -467,19 +466,15 @@ public class AsistenciasForm extends javax.swing.JFrame {
                 form.setVisible(true);
                 /*URL iconURL = getClass().getResource("/images/app_icon.png");
                 
-                ImageIcon icon = new ImageIcon(iconURL);
-                form.setIconImage(icon.getImage());*/
+                 ImageIcon icon = new ImageIcon(iconURL);
+                 form.setIconImage(icon.getImage());*/
                 //form.setProfesorImagen(icon);
                 form.prepareData();
-                
-        
-                
+
             }
         });
-        
-        
+
         // iconURL is null when not found
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -517,94 +512,106 @@ public class AsistenciasForm extends javax.swing.JFrame {
     private javax.swing.JLabel usuarioLabel;
     // End of variables declaration//GEN-END:variables
 
-    
     private ClasesTableModel modelEnCurso;
     private ClasesTableModel modelFuturas;
-    
+
     HorariosParse horas;
     int[] horarios;
-    
-    private void setProfessorData(ResultSet raw) throws SQLException{
-       raw.first();
+
+    private void setProfessorData(ResultSet raw) throws SQLException {
+        raw.first();
         maestroNombreLabel.setText(raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_MAESTRO));
         claseNombreLabel.setText(raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_MATERIA));
         salonNombreLabel.setText(raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_SALON));
         horaInicioLabel.setText(raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_HORARIO_INICIO));
         //TODO: Handle everything else
         String pic = raw.getString(DataContract.AsistenciaDataViewEntry.COLUMN_MAESTRO_PICTURES);
-        if(pic!=null){
+        if (pic != null) {
             setProfesorImagen(pic);
         }
     }
     /*private void setProfessorData(int t){
-        setProfessorData(mMaestrosParser.get(t), new Clase());
-    }*/
-    
+     setProfessorData(mMaestrosParser.get(t), new Clase());
+     }*/
+
     private int dia;
     private AsistenciaController mAsistenciaController;
+
     private void prepareData() {
-        
-            dia = Utility.getDate();
+
+        Timer timer = new Timer(Utility.REFRESH_TIME, new ActionListener() {
             
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetTables();
+            }
+        });
+
+        dia = Utility.getDate();
+
         try {
             horas = HorariosParse.getInstance();
             horarios = horas.getClosest();
-            if(isDebug) {
+            if (isDebug) {
                 horarios = Utility.fixedHorarios;
-                if(Utility.getDate()>4)
-                dia = Utility.fixedDay;
+                if (Utility.getDate() > 4) {
+                    dia = Utility.fixedDay;
+                }
             }
             mMaestrosParser = UsuariosParser.with(Utility.DB_STRING);
             mAsistenciaController = AsistenciaController.getInstance();
-            
+
             resetTables();
-            
+            timer.start();
+
         } catch (ClassNotFoundException | SQLException | ParseException ex) {
             Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-            
+
     }
-    private void resetTables(){
-        
-                modelEnCurso = ClasesTableModel.with( horarios[0],dia);
-                modelFuturas = ClasesTableModel.with( horarios[1],dia);
-            
-            updateTables();
+
+    private void resetTables() {
+
+        modelEnCurso = ClasesTableModel.with(horarios[0], dia);
+        modelFuturas = ClasesTableModel.with(horarios[1], dia);
+        LOGGER.info("Actualizando tablas.");
+        updateTables();
     }
-    
-    private void setTable(JTable table, TableModel model, JLabel indicator, int pos){
-        
+
+    private void setTable(JTable table, TableModel model, JLabel indicator, int pos) {
+
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setRowSelectionAllowed(false);
         table.setModel(model);
         table.setFocusable(false);
         indicator.setText(horas.getHora(horarios[pos]));
     }
-    private void updateTables(){
-        setTable(enCursoTable,modelEnCurso,ecHoraLabel,0);
-        setTable(futurasTable,modelFuturas,futurasHoraLabel,1);
+
+    private void updateTables() {
+        setTable(enCursoTable, modelEnCurso, ecHoraLabel, 0);
+        setTable(futurasTable, modelFuturas, futurasHoraLabel, 1);
     }
 
     private void setProfesorImagen(String picture_uri) {
-        
-        
+
         String filename = picture_uri;
-        if(filename.isEmpty())filename = "no_exist.jpg";
+        if (filename.isEmpty()) {
+            filename = "no_exist.jpg";
+        }
         try {
             //URL url = new URL(picture_uri);
-            URL url = new URL(Utility.SERVER_PATH+Utility.IMG_PATH+filename);
+            URL url = new URL(Utility.SERVER_PATH + Utility.IMG_PATH + filename);
             BufferedImage c = ImageIO.read(url);
             ImageIcon image = new ImageIcon(c);
             setProfesorImagen(image);
-           
+
         } catch (IOException ex) {
             //Logger.getLogger(AsistenciasForm.class.getName()).log(Level.SEVERE, null, ex);
             LOGGER.info("Image not found. Loading Default.");
-            
-            
-            }
-        
+
+        }
+
     }
 
     private void resetUserData() {
